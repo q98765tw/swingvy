@@ -1,0 +1,57 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<!-- 我的休假申請 -->
+<div class="mt-4 container shadow-sm p-3 bg-body rounded bg-white text-center">
+    <div class="col-12 fs-2">我的休假申請</div>
+    <div class="mt-2 row gx-0 ">
+        <div class="col">假別</div>
+        <div class="col">開始日</div>
+        <div class="col">結束日</div>
+        <div class="col">狀態</div>
+        <div class="col">核准人</div>
+    </div>
+    <!-- 拿來foreach -->
+    <div class="mt-2 row gx-0 ">
+        <div class="col">特休</div>
+        <div class="col">2023/09/20 09:00:00</div>
+        <div class="col">2023/09/20 18:00:00</div>
+        <div class="col">核准</div>
+        <div class="col">lee</div>
+    </div>
+</div>
+<!-- 我的休假申請結束 -->
+<!-- 請假input -->
+<div class="mt-4 container shadow-sm p-3 bg-body rounded bg-white text-center">
+    <div class="col-12 fs-3 ">我要請假</div>
+    <div class="mt-2 row gx-0 ">
+        <div class="col">
+            <label>假別:</label>
+            <select name="type" id="">
+                <option value="0">特休</option>
+                <option value="1">事假</option>
+                <option value="2">病假</option>
+                <option value="3">生理假</option>
+            </select>
+        </div>
+        <div class="col">
+            <label>開始日:</label>
+            <input type="date" class="calendar">
+        </div>
+        <div class="col">
+            <label>開始日:</label>
+            <input type="date" class="calendar">
+        </div>
+    </div>
+    <div class="mt-4 row gx-0">
+        <div class="col">
+            <textarea name="" id="" cols="" rows="3" placeholder="事由" style="width: 90%;"></textarea>
+        </div>
+    </div>
+    <div class="col-12">
+        <button type="button" class="btn btn-primary my-1">送出</button>
+    </div>
+</div>
+<!-- 請假input結束 -->

@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - swingvy</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/swingvy.styles.css" asp-append-version="true" />
+</head>
+<body class="bg-light">
+    @* <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">swingvy</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header> *@
+    <div class="container-fluid gx-0">
+        <!--上面navbar-->
+        <div class="d-flex justify-content-between shadow-sm p-3 bg-body rounded bg-white" style="height: 13vh;">
+            <div><h2>Faimi</h2></div>
+            <div><h2>首頁</h2></div>
+            <!-- ----------------大頭貼下拉選單區------------ -->
+            <ul class="navbar-nav me-5">
+                <li class="nav-item dropdown me-4 ">
+                    <a class="nav-link dropdown-toggle " href="#" id="navbarDarkDropdownMenuLink"
+                       role="button" data-bs-toggle="dropdown" aria-expanded="false"
+                       style="color: #2b3040e6;  font-size: 24px;  ">
+                        Patrick
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-secondary "
+                        aria-labelledby="navbarDarkDropdownMenuLink">
+                        <li><a class="dropdown-item fs-5" href="#">會員中心</a></li>
+                        <li><a class="dropdown-item fs-5" href="#">登出</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <!-- ----------------大頭貼下拉選單區end------------ -->
+        </div>
+        <!--上面navbar結束-->
+        <div class="row gx-0">
+            <!--左邊navbar-->
+            <div class="col-2 border shadow-sm p-3  rounded bg-white bg-gradient" style="height: 87vh">
+                <a href="/Home/Index">
+                    <div class="my-1 col-12 fs-2">首頁</div>
+                </a>
+                <a href="/Home/Privacy">
+                    <div class="my-1 col-12 fs-2">員工目錄</div>
+                </a>
+                <a href="/ApplyLeave/Index">
+                    <div class="my-1 col-12 fs-2">申請請假</div>
+                </a>
+                <a href="/CheckLeaveAll/Index">
+                    <div class="my-1 col-12 fs-2">請假審核</div>
+                </a>
+                <div class="my-1 col-12 fs-2">行事曆</div>
+            </div>
+            <!--左邊navbar結束-->
+            <!--功能內頁-->
+            <div class="col-10">
+                @RenderBody()
+            </div>
+            <!--功能內頁結束-->
+        </div>
+    </div>
+    
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
