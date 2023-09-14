@@ -2,7 +2,149 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="row">
+    <div class="col-12 d-flex align-items-center mt-5" style="margin-left: 10%;"><h1>嗨~~ Patrick</h1></div>
+
+    <style>
+        .custom-border {
+            border: 2px solid #000; /* 設置框線寬度、樣式和顏色 */
+            padding: 10px; /* 設置內部間距 */
+            margin: 10px; /* 設置外部間距 */
+            border-radius: 10px; /* 設置圓角 */
+        }
+
+        .custom-border-outside {
+            height: 300px;
+            width: 500px;
+            overflow: auto;
+        }
+
+        .custom-border-card {
+            height: 300px;
+            width: 500px;
+            border: 2px solid #000;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 10px;
+        }
+
+        .btnSave {
+            color: white;
+            font-size: 25px;
+            background-color: #999a9ae6;
+            border-radius: 10px 10px 10px 10px;
+            padding: 8px 18px 8px 18px;
+            border: none;
+        }
+    </style>
+
+    <div class="col-6 row mt-5">
+        <div class="col-11 h1 " style="margin-left: 7%;">近期活動</div>
+        <div class="custom-border-outside" style="margin-left: 5%;">
+            <div class="col-11 custom-border">第一項</div>
+            <div class="col-11 custom-border">第一項</div>
+            <div class="col-11 custom-border">第一項</div>
+            <div class="col-11 custom-border">第一項</div>
+            <div class="col-11 custom-border">第一項</div>
+            <div class="col-11 custom-border">第一項</div>
+            <div class="col-11 custom-border">第一項</div>
+            <div class="col-11 custom-border">第一項</div>
+            <div class="col-11 custom-border">第一項</div>
+        </div>
+    </div>
+
+    <div class="col-6 row mt-5">
+        <div class="col-11 h1" style="margin-left: 7%;">我要打卡</div>
+        <div class="custom-border-card d-flex justify-content-center align-items-center" style="margin-left: 5%;">
+            <div>
+                <div class="mb-4" id="current-time">現在時間：</div>
+                <div class="mb-4" id="work-hours">上班時間：</div>
+                <div class="mb-4" id="pass-time">目前過了：</div>
+                <button class="btnSave" id="on-duty">上班打卡</button>
+                <button class="btnSave" id="get-off">下班打卡</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+                            // 初始化上班時間
+        var workStartTime = null;
+
+        // 初始的目前過了的時間和上班時間
+        var initialPassTime = document.getElementById("pass-time").textContent;
+        var initialWorkTime = document.getElementById("work-hours").textContent;
+
+        // 上班打卡按鈕點擊事件處理
+        document.getElementById("on-duty").addEventListener("click", function () {
+            // 獲取現在的時間
+            var now = new Date();
+
+            // 格式化時間
+            var formattedTime = now.toLocaleString();
+
+            // 更新上班時間
+            workStartTime = now;
+
+            // 顯示當下時間並記錄上班時間
+            document.getElementById("work-hours").textContent = "上班時間：" + formattedTime;
+
+            // 清空目前過了的內容
+            document.getElementById("pass-time").textContent = "";
+
+            // 開始記錄上班時間
+            recordWorkTime();
+        });
+
+        // 下班打卡按鈕點擊事件處理
+        document.getElementById("get-off").addEventListener("click", function () {
+            // 清空上班時間
+            workStartTime = null;
+
+            // 回歸目前過了的內容成一開始的狀態
+            document.getElementById("pass-time").textContent = initialPassTime;
+
+            // 回歸上班時間成一開始的狀態
+            document.getElementById("work-hours").textContent = initialWorkTime;
+        });
+
+        // 開始記錄上班時間和計算目前過了多久
+        function recordWorkTime() {
+            // 檢查是否有上班時間
+            if (workStartTime) {
+                // 更新目前時間
+                var now = new Date();
+
+                // 計算過了多久
+                var elapsedTime = now - workStartTime;
+                var hours = Math.floor(elapsedTime / 3600000);
+                var minutes = Math.floor((elapsedTime % 3600000) / 60000);
+                var seconds = Math.floor((elapsedTime % 60000) / 1000);
+                var elapsedTimeText = hours + " 小時 " + minutes + " 分鐘 " + seconds + " 秒";
+
+                // 顯示目前過了的時間
+                document.getElementById("pass-time").textContent = "目前過了：" + elapsedTimeText;
+
+                // 每秒更新一次
+                setTimeout(recordWorkTime, 1000);
+            }
+        }
+
+        // 更新時間的函數
+        function updateClock() {
+            // 獲取現在的日期和時間
+            var now = new Date();
+
+            // 格式化日期和時間
+            var formattedTime = now.toLocaleString();
+
+            // 將格式化後的時間顯示在網頁上
+            document.getElementById("current-time").textContent = "現在時間：" + formattedTime;
+        }
+
+        // 初始更新
+        updateClock();
+
+        // 每秒更新一次
+        setInterval(updateClock, 1000);
+    </script>
 </div>

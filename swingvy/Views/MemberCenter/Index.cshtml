@@ -1,0 +1,102 @@
+﻿<style>
+    .circular-image {
+        width: 200px; /* 設置圖片的寬度 */
+        height: 200px; /* 設置圖片的高度 */
+        border-radius: 50%; /* 將邊框設置為一半寬度，使圖片變成圓形 */
+    }
+
+    .Right_Pic {
+        margin-top: 20%;
+        width: 650px;
+        height: 400px;
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-4" style="margin-left: 10%;">
+            <div class="mt-5">
+                <img class="circular-image" src="~/img/640x530.jpg">
+            </div>
+            <div class="mt-4">
+                <label>姓名:</label>
+                <input type="text" class="myInput ms-4 disabled-input" value="How" disabled>
+                <input type="hidden" class="original-value" value="How">
+            </div>
+            <div class="mt-4">
+                <label>信箱:</label>
+                <input type="text" class="myInput ms-4 disabled-input" value="kent81001@gmail.com" disabled>
+                <input type="hidden" class="original-value" value="kent81001@gmail.com">
+            </div>
+            <div class="mt-4">
+                <label>手機:</label>
+                <input type="text" class="myInput ms-4 disabled-input" value="0970028151" disabled>
+                <input type="hidden" class="original-value" value="0970028151">
+            </div>
+            <div class="mt-4">
+                <label>部門:</label>
+                <input type="text" class="myInput ms-4 disabled-input" value="後端" disabled>
+                <input type="hidden" class="original-value" value="後端">
+            </div>
+            <div class="mt-4">
+                <label>職等:</label>
+                <input type="text" class="myInput ms-4 disabled-input" value="員工" disabled>
+                <input type="hidden" class="original-value" value="員工">
+            </div>
+            <div class="mt-4">
+                <button class="btn btn-primary edit-button">编辑</button>
+                <button class="btn btn-secondary cancel-button" style="display: none;">取消</button>
+                <button class="btn btn-success save-button" style="display: none;">保存</button>
+            </div>
+        </div>
+
+        <div class="col-3 mt-5 ">
+            <img class="Right_Pic" src="~/img/Working-Vector-Illustration.jpg">
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".edit-button").click(function () {
+            var row = $(this).closest(".row");
+            row.find(".myInput").prop("disabled", false);
+            row.find(".cancel-button").show();
+            row.find(".save-button").show();
+            row.find(".edit-button").hide();
+
+            // 保存初始值
+            row.find(".myInput").each(function () {
+                var initialValue = $(this).val();
+                $(this).siblings(".original-value").val(initialValue);
+            });
+        });
+
+        $(".cancel-button").click(function () {
+            var row = $(this).closest(".row");
+            row.find(".myInput").prop("disabled", true);
+            row.find(".save-button").hide();
+            row.find(".edit-button").show();
+            row.find(".cancel-button").hide();
+
+            // 恢复为初始值
+            row.find(".myInput").each(function () {
+                var initialValue = $(this).siblings(".original-value").val();
+                $(this).val(initialValue);
+            });
+        });
+
+        $(".save-button").click(function () {
+            // 在这里添加保存逻辑，将输入字段的值发送到服务器或执行其他保存操作
+            // 保存完成后，可以再次将输入字段设为 disabled，并隐藏取消和保存按钮
+            //測試變更
+            var row = $(this).closest(".row");
+            row.find(".myInput").prop("disabled", true);
+            row.find(".save-button").hide();
+            row.find(".edit-button").show();
+            row.find(".cancel-button").hide();
+        });
+    });
+</script>
