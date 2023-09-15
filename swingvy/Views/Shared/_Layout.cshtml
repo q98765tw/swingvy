@@ -11,9 +11,25 @@
 <body class="bg-light">
     <div class="container-fluid gx-0">
         <!--上面navbar-->
-        <div class="d-flex justify-content-between shadow-sm p-3 bg-body rounded bg-white fs-2" style="height: 10vh;">
-            <div>Faimi</div>
-            <div><a href="#">登出</a></div>
+        <div class="d-flex justify-content-between shadow-sm p-3 bg-body rounded bg-white" style="height: 13vh;">
+            <div><h2>Faimi</h2></div>
+            <div><h2>首頁</h2></div>
+            <!-- ----------------大頭貼下拉選單區------------ -->
+            <ul class="navbar-nav me-5">
+                <li class="nav-item dropdown me-4 ">
+                    <a class="nav-link dropdown-toggle " href="#" id="navbarDarkDropdownMenuLink"
+                       role="button" data-bs-toggle="dropdown" aria-expanded="false"
+                       style="color: #2b3040e6;  font-size: 24px;  ">
+                        Patrick
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-secondary "
+                        aria-labelledby="navbarDarkDropdownMenuLink">
+                        <li><a class="dropdown-item fs-5" href="/MemberCenter/Index">會員中心</a></li>
+                        <li><a class="dropdown-item fs-5" href="#">登出</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <!-- ----------------大頭貼下拉選單區end------------ -->
         </div>
         <!--上面navbar結束-->
         <div class="row gx-0">
@@ -34,8 +50,8 @@
                 <a href="/CheckLeaveAll/Index">
                     <div class="my-1 col-12 fs-2">請假審核</div>
                 </a>
-                <a href="/Home/Index">
-                    <div class="my-1 col-12 fs-2">行事曆</div>
+                <a href="/Calender/Index">
+                <div class="my-1 col-12 fs-2">行事曆</div>
                 </a>
             </div>
             <!--左邊navbar結束-->
