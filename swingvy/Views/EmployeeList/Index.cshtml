@@ -21,77 +21,49 @@
             </thead>
 
             <tbody>
-                <tr>
-                    <td>How</td>
-                    <td>後端</td>
-                    <td>員工</td>
-                    <td>john@example.com</td>
-                    <td>0970028151</td>
-                </tr>
-                <tr>
-                    <td>How</td>
-                    <td>後端</td>
-                    <td>員工</td>
-                    <td>john@example.com</td>
-                    <td>0970028151</td>
-                </tr>
-                <tr>
-                    <td>How</td>
-                    <td>後端</td>
-                    <td>員工</td>
-                    <td>john@example.com</td>
-                    <td>0970028151</td>
-                </tr>
-                <tr>
-                    <td>How</td>
-                    <td>後端</td>
-                    <td>員工</td>
-                    <td>john@example.com</td>
-                    <td>0970028151</td>
-                </tr>
-                <tr>
-                    <td>How</td>
-                    <td>後端</td>
-                    <td>員工</td>
-                    <td>john@example.com</td>
-                    <td>0970028151</td>
-                </tr>
-                <tr>
-                    <td>How</td>
-                    <td>後端</td>
-                    <td>員工</td>
-                    <td>john@example.com</td>
-                    <td>0970028151</td>
-                </tr>
-                <tr>
-                    <td>How</td>
-                    <td>後端</td>
-                    <td>員工</td>
-                    <td>john@example.com</td>
-                    <td>0970028151</td>
-                </tr>
-                <tr>
-                    <td>How</td>
-                    <td>後端</td>
-                    <td>員工</td>
-                    <td>john@example.com</td>
-                    <td>0970028151</td>
-                </tr>
-                <tr>
-                    <td>Mary</td>
-                    <td>Moe</td>
-                    <td>mary@example.com</td>
-                    <td>john@example.com</td>
-                    <td>john@example.com</td>
-                </tr>
-                <tr>
-                    <td>July</td>
-                    <td>Dooley</td>
-                    <td>july@example.com</td>
-                    <td>john@example.com</td>
-                    <td>john@example.com</td>
-                </tr>
 
+                @foreach (var i in ViewBag.Emp_List)
+                {
+                    string Depa;
+                    string Pition;
+                    switch (i.Depart)
+                    {
+                        case 0:
+                            Depa = "UI/UX";
+                            break;
+                        case 1:
+                            Depa = "前端";
+                            break;
+                        case 2:
+                            Depa = "後端";
+                            break;
+                        default:
+                            Depa = "無";
+                            break;
+                    }
+
+                    switch (i.Ption)
+                    {
+                        case 0:
+                            Pition = "員工";
+                            break;
+                        case 1:
+                            Pition = "主管";
+                            break;
+                        default:
+                            Pition = "無";
+                            break;
+                    }
+                    
+                    <tr>
+                        <td>@i.Name</td>
+                        <td>@Depa</td>
+                        <td>@Pition</td>
+                        <td>@i.Mail</td>
+                        <td>@i.Phone</td>
+                </tr>     
+                };
+               
             </tbody>
 
         </table>

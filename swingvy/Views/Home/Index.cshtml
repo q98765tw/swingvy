@@ -41,15 +41,11 @@
     <div class="col-6 row mt-5">
         <div class="col-11 h1 " style="margin-left: 7%;">近期活動</div>
         <div class="custom-border-outside" style="margin-left: 5%;">
-            <div class="col-11 custom-border">第一項</div>
-            <div class="col-11 custom-border">第一項</div>
-            <div class="col-11 custom-border">第一項</div>
-            <div class="col-11 custom-border">第一項</div>
-            <div class="col-11 custom-border">第一項</div>
-            <div class="col-11 custom-border">第一項</div>
-            <div class="col-11 custom-border">第一項</div>
-            <div class="col-11 custom-border">第一項</div>
-            <div class="col-11 custom-border">第一項</div>
+            @foreach (var name in ViewBag.Rec_Event)
+            {
+                <div class="col-11 custom-border">@name.MemberName 的 @name.mem_Act 在 @name.Time 開始</div>
+            }
+            
         </div>
     </div>
 

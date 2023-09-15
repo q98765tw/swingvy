@@ -12,43 +12,82 @@
     }
 </style>
 
+@{
+    string Depa;
+    string Pition;
+    switch (ViewBag.Ifo.Depart)
+    {
+        case 0:
+            Depa = "UI/UX";
+            break;
+        case 1:
+            Depa = "前端";
+            break;
+        case 2:
+            Depa = "後端";
+            break;
+        default:
+            Depa = "無";
+            break;
+    }
+
+    switch (ViewBag.Ifo.Position)
+    {
+        case 0:
+            Pition = "員工";
+            break;
+        case 1:
+            Pition = "主管";
+            break;
+        default:
+            Pition = "無";
+            break;
+    }
+}
+
 <div class="container-fluid">
     <div class="row">
-        <div class="col-4" style="margin-left: 10%;">
-            <div class="mt-5">
-                <img class="circular-image" src="~/img/640x530.jpg">
-            </div>
-            <div class="mt-4">
-                <label>姓名:</label>
-                <input type="text" class="myInput ms-4 disabled-input" value="How" disabled>
-                <input type="hidden" class="original-value" value="How">
-            </div>
-            <div class="mt-4">
-                <label>信箱:</label>
-                <input type="text" class="myInput ms-4 disabled-input" value="kent81001@gmail.com" disabled>
-                <input type="hidden" class="original-value" value="kent81001@gmail.com">
-            </div>
-            <div class="mt-4">
-                <label>手機:</label>
-                <input type="text" class="myInput ms-4 disabled-input" value="0970028151" disabled>
-                <input type="hidden" class="original-value" value="0970028151">
-            </div>
-            <div class="mt-4">
-                <label>部門:</label>
-                <input type="text" class="myInput ms-4 disabled-input" value="後端" disabled>
-                <input type="hidden" class="original-value" value="後端">
-            </div>
-            <div class="mt-4">
-                <label>職等:</label>
-                <input type="text" class="myInput ms-4 disabled-input" value="員工" disabled>
-                <input type="hidden" class="original-value" value="員工">
-            </div>
-            <div class="mt-4">
-                <button class="btn btn-primary edit-button">编辑</button>
-                <button class="btn btn-secondary cancel-button" style="display: none;">取消</button>
-                <button class="btn btn-success save-button" style="display: none;">保存</button>
-            </div>
-        </div>
+        <form asp-action="ChangeIfo" asp-controller="MemberCenter" class="col-4" style="margin-left: 10%;">
+                <div class="mt-5">
+                    <img class="circular-image" src="~/img/640x530.jpg">
+                </div>
+                <div class="mt-4">
+                    <label>姓名:</label>
+                <input type="text" class="myInput ms-4 disabled-input" value=@ViewBag.Ifo.Name name="GetName">
+                    @*<input type="hidden" class="original-value" value=@ViewBag.Ifo.Name>*@
+                </div>
+                <div class="mt-4">
+                    <label>信箱:</label>
+                    <input type="text" class="myInput ms-4 disabled-input" value=@ViewBag.Ifo.Mail name="GetMail">
+                    @*<input type="hidden" class="original-value" value=@ViewBag.Ifo.Mail>*@
+                </div>
+                <div class="mt-4">
+                    <label>手機:</label>
+                    <input type="text" class="myInput ms-4 disabled-input" value=@ViewBag.Ifo.Phone name="GetPhone">
+                    @*<input type="hidden" class="original-value" value=@ViewBag.Ifo.Phone>*@
+                </div>
+                <div class="mt-4">
+                    <label>部門:</label>
+                    <input type="text" class="myInput ms-4 disabled-input" value=@Depa name="GetDepa">
+                    @*<input type="hidden" class="original-value" value=@Depa>*@
+                </div>
+                <div class="mt-4">
+                    <label>職等:</label>
+                    <input type="text" class="myInput ms-4 disabled-input" value=@Pition name="GetPtion">
+                    @*<input type="hidden" class="original-value" value=@Pition>*@
+                </div>
+                <div class="mt-4">
+                    <button type="button" class="btn btn-secondary cancel-button" onclick="cancelClicked()" >取消變更</button>
+                    @*按下取消導向原本Controller*@
+                    <script>
+                        function cancelClicked() {
+                            window.location.href = '/MemberCenter/Index';
+                        }
+                    </script>
+
+                    <button type="submit" class="btn btn-success save-button">保存變更</button>
+                </div>
+        </form>
 
         <div class="col-3 mt-5 ">
             <img class="Right_Pic" src="~/img/Working-Vector-Illustration.jpg">
@@ -56,35 +95,37 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script>
+
+
+@*<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>*@
+@*<script>
     $(document).ready(function () {
         $(".edit-button").click(function () {
             var row = $(this).closest(".row");
-            row.find(".myInput").prop("disabled", false);
-            row.find(".cancel-button").show();
-            row.find(".save-button").show();
-            row.find(".edit-button").hide();
+            var saveButton = row.find(".save-button");
+            var cancelButton = row.find(".cancel-button");
 
-            // 保存初始值
-            row.find(".myInput").each(function () {
-                var initialValue = $(this).val();
-                $(this).siblings(".original-value").val(initialValue);
+            // Toggle the display of buttons
+            saveButton.toggle();
+            cancelButton.toggle();
+            $(this).toggle();  // Toggle the edit button
+
+            // Enable/disable inputs based on the edit mode
+            var inputs = row.find(".myInput");
+            inputs.prop("disabled", function (i, value) {
+                return !value;
             });
-        });
 
-        $(".cancel-button").click(function () {
-            var row = $(this).closest(".row");
-            row.find(".myInput").prop("disabled", true);
-            row.find(".save-button").hide();
-            row.find(".edit-button").show();
-            row.find(".cancel-button").hide();
-
-            // 恢复为初始值
-            row.find(".myInput").each(function () {
-                var initialValue = $(this).siblings(".original-value").val();
-                $(this).val(initialValue);
+            // Save or restore initial values
+            inputs.each(function () {
+                var initialValue = $(this).val();
+                if (value) {
+                    $(this).siblings(".original-value").val(initialValue);
+                } else {
+                    var originalValue = $(this).siblings(".original-value").val();
+                    $(this).val(originalValue);
+                }
             });
         });
 
@@ -99,4 +140,4 @@
             row.find(".cancel-button").hide();
         });
     });
-</script>
+</script>*@

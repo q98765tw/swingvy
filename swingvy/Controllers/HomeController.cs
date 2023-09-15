@@ -15,7 +15,28 @@ namespace swingvy.Controllers
         //推送測試
         public IActionResult Index()
         {
+            DateTime today = DateTime.Today;
+            DateTime sevenDaysLater = today.AddDays(7);
+
+            var Cal = from w in _swingvyContext.calendar
+                      join m in _swingvyContext.memberData
+                      on w.member_id equals m.member_id
+                      where w.startTime >= today && w.startTime <= sevenDaysLater　
+                      select new
+                      {
+                          MemberName = m.name,
+                          mem_Act = w.name,
+                          Time = w.startTime
+                      };
+            var Clk = from a in _swingvyContext.worktime
+                      where a.member_id == 1
+                      select new
+                      {
+                          WorkStart = a.startTime
+                      };
+            ViewBag.Rec_Event = Cal.ToList();
             return View();
+
         }
 
         public IActionResult Privacy()
