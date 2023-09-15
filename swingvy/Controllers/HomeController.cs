@@ -12,7 +12,7 @@ namespace swingvy.Controllers
         {
             _swingvyContext = context;
         }
-
+        //推送測試
         public IActionResult Index()
         {
             return View();
