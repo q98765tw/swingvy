@@ -61,7 +61,7 @@
                 <div class="col">@item.startTime</div>
                 <div class="col">@item.endTime</div>
                 <div class="col">
-                    <a href="/CheckLeavePerson/Index">
+                    <a href="@Url.Action("Index","CheckLeavePerson", new { leaveOrder_id = item.leaveOrder_id })">
                         @switch (item.state)
                         {
                             case 0:

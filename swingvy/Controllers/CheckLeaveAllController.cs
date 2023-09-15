@@ -22,6 +22,7 @@ namespace swingvy.Controllers
                         where md1.type == memberType
                         select new
                         {
+                            leaveOrder_id = leaveOrder.leaveOrder_id,
                             name = md1.name,
                             applyTime = leaveOrder.applyTime,
                             leaveType = leaveOrder.type,
