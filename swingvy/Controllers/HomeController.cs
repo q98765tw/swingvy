@@ -7,10 +7,10 @@ namespace swingvy.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly swingvyContext _swingvyContext;
+        public HomeController(swingvyContext context)
         {
-            _logger = logger;
+            _swingvyContext = context;
         }
 
         public IActionResult Index()
@@ -20,6 +20,11 @@ namespace swingvy.Controllers
 
         public IActionResult Privacy()
         {
+            var membername = from m in _swingvyContext.memberData
+                             select m.name;
+
+            ViewBag.Name = membername.ToList();
+
             return View();
         }
 

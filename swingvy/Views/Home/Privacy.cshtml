@@ -3,4 +3,9 @@
 }
 <h1>@ViewData["Title"]</h1>
 
+@foreach (var name in ViewBag.Name)
+{
+    <p>@name</p>
+}
+
 <p>Use this page to detail your site's privacy policy.</p>
