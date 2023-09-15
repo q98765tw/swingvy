@@ -26,8 +26,14 @@ namespace swingvy.Controllers
                 // 可以根據需要執行其他登入相關的操作，例如設置認證Cookie等
 
                 // 將使用者帳號存入ViewBag以供後續使用
-                Response.Cookies.Append("member_id", user.member_id.ToString());
-
+                var id = user.member_id;
+                var data = _swingvyContext.memberData.FirstOrDefault(m => m.member_id == id);
+                if (data != null)
+                {
+                    Response.Cookies.Append("member_id", id.ToString());
+                    Response.Cookies.Append("member_type", data.type.ToString());
+                    Response.Cookies.Append("member_position", data.position.ToString());
+                }
                 // 重定向到登入成功後的頁面
                 return RedirectToAction("Index","Home");
             }
