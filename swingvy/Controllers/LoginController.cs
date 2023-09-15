@@ -33,6 +33,7 @@ namespace swingvy.Controllers
                     Response.Cookies.Append("member_id", id.ToString());
                     Response.Cookies.Append("member_type", data.type.ToString());
                     Response.Cookies.Append("member_position", data.position.ToString());
+                    Response.Cookies.Append("member_head", data.head.ToString());
                 }
                 // 重定向到登入成功後的頁面
                 return RedirectToAction("Index","Home");

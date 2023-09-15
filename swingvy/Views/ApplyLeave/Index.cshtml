@@ -63,7 +63,7 @@
     <div class="mt-2 row gx-0 ">
         <div class="col">
             <label>假別:</label>
-            <select name="type" id="">
+            <select name="type" id="leaveType">
                 <option value="0">特休</option>
                 <option value="1">事假</option>
                 <option value="2">病假</option>
@@ -72,20 +72,24 @@
         </div>
         <div class="col">
             <label>開始日:</label>
-            <input type="date" class="calendar">
+            <input id="startTime" type="date" class="calendar">
+            @* <input id="startTime" type="datetime-local" class="calendar"> *@
         </div>
         <div class="col">
-            <label>開始日:</label>
-            <input type="date" class="calendar">
+            <label>結束日:</label>
+            <input id="endTime" type="date" class="calendar">
+            @* <input id="endTime" type="datetime-local" class="calendar"> *@
         </div>
     </div>
     <div class="mt-4 row gx-0">
         <div class="col">
-            <textarea name="" id="" cols="20" rows="3" placeholder="事由" style="width: 90%;"></textarea>
+            <textarea name="" id="reason" cols="20" rows="3" placeholder="事由" style="width: 90%;"></textarea>
         </div>
     </div>
     <div class="col-12">
-        <button type="button" class="btn btn-primary my-1">送出</button>
+        <button id="postData" type="button" class="btn btn-primary my-1">送出</button>
     </div>
 </div>
 <!-- 請假input結束 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="~/js/applyLeave.js"></script>
