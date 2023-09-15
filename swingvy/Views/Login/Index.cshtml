@@ -19,14 +19,19 @@
         <div class="w-50 shadow-sm p-3 mb-5 bg-body rounded bg-white" style="margin-top: 10%;">
             <div class="row mt-2 gx-0">
                 <div class="col-2"></div>
-                <div class="col">
-                    <div class=""><h2><b>很高興見到您！</b></h2></div>
-                    <div class="">還沒用過 Swingvy 嗎？</div>
-                    <div class="my-1"><input type="text" style="width: 65%;"></div>
-                    <div class="my-1"><input type="text" style="width: 65%;"></div>
-                    <button type="button" class="btn btn-primary my-1">登入</button>
-
-                </div>
+                <form action="/Login/Login" method="post">
+                    <div class="col">
+                        <div class=""><h2><b>很高興見到您！</b></h2></div>
+                        <div class="">還沒用過 Swingvy 嗎？</div>
+                        <div class="my-1"><input type="text" name="account" style="width: 65%;" placeholder="account"></div>
+                        <div class="my-1"><input type="text" name="password" style="width: 65%;" placeholder="password"></div>
+                        @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+                        {
+                            <div class="text-danger">@ViewBag.ErrorMessage</div>
+                        }
+                        <input class="btn_submit" type="submit" value="登錄">
+                    </div>
+                 </form>
             </div>
         </div>
     </div>

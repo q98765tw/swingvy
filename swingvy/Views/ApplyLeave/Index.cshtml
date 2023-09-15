@@ -14,13 +14,47 @@
         <div class="col">核准人</div>
     </div>
     <!-- 拿來foreach -->
-    <div class="mt-2 row gx-0 ">
-        <div class="col">特休</div>
-        <div class="col">2023/09/20 09:00:00</div>
-        <div class="col">2023/09/20 18:00:00</div>
-        <div class="col">核准</div>
-        <div class="col">lee</div>
-    </div>
+    @if (ViewBag.apply != null && ViewBag.apply.Count > 0)
+    {
+        @foreach (var item in ViewBag.apply)
+        {
+            <div class="mt-2 row gx-0 ">
+                <div class="col">
+                    @switch (item.type) {
+                    case 0:
+                        <span>特休</span>
+                        break;
+                    case 1:
+                        <span>事假</span>
+                        break;
+                    case 2:
+                        <span>病假</span>
+                        break;
+                    case 3:
+                        <span>生理假</span>
+                        break;
+                    }
+                </div>
+                <div class="col">@item.startTime</div>
+                <div class="col">@item.endTime</div>
+                <div class="col">
+                    @switch (item.state)
+                    {
+                        case 0:
+                            <span>未核准</span>
+                            break;
+                        case 1:
+                            <span>核准</span>
+                            break;
+                        case 2:
+                            <span>駁回</span>
+                            break;
+                    }
+                </div>
+                <div class="col">@item.head_name</div>
+            </div>
+        }
+    }
 </div>
 <!-- 我的休假申請結束 -->
 <!-- 請假input -->
