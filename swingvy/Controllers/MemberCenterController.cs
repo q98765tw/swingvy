@@ -24,7 +24,8 @@ namespace swingvy.Controllers
                           Mail = a.email,
                           Phone = a.phone,
                           Depart = a.type,
-                          Position = a.position
+                          Position = a.position,
+                          Photo = a.img_url
                       };
             ViewBag.Ifo = Bag.FirstOrDefault();
             return View();

@@ -1,9 +1,7 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿
 
 <div class="row">
-    <div class="col-12 d-flex align-items-center mt-5" style="margin-left: 10%;"><h1>嗨~~ Patrick</h1></div>
+    <div class="col-12 d-flex align-items-center mt-5" style="margin-left: 10%;"><h1>嗨~~ @ViewBag.UserName[0].Name</h1></div>
 
     <style>
         .custom-border {
@@ -49,98 +47,126 @@
         </div>
     </div>
 
+
     <div class="col-6 row mt-5">
         <div class="col-11 h1" style="margin-left: 7%;">我要打卡</div>
         <div class="custom-border-card d-flex justify-content-center align-items-center" style="margin-left: 5%;">
             <div>
                 <div class="mb-4" id="current-time">現在時間：</div>
-                <div class="mb-4" id="work-hours">上班時間：</div>
+                <div class="mb-4" id="work-hours">上班時間：@ViewBag.worktime[0].Start</div>
                 <div class="mb-4" id="pass-time">目前過了：</div>
-                <button class="btnSave" id="on-duty">上班打卡</button>
-                <button class="btnSave" id="get-off">下班打卡</button>
+                @if (ViewBag.worktime[0].State == 0)
+                {
+                    <a href="@Url.Action("OnDuty", "Home")" class="btnSave" style="background-color:forestgreen">上班打卡</a>
+                    <a class="btnSave" style="background-color:darkred">下班打卡</a>
+                }
+                else if (ViewBag.worktime[0].State == 1)
+                {
+                    <a class="btnSave" style="background-color:darkred">上班打卡</a>
+                    <a href="@Url.Action("GetOff", "Home")" class="btnSave" style="background-color:forestgreen">下班打卡</a>
+                }
+                else if (ViewBag.worktime[0].State == 2)
+                {
+                    <a class="btnSave" style="background-color:darkred">上班打卡</a>
+                    <a class="btnSave" style="background-color:darkred">下班打卡</a>
+                }
+            @*    <a href="@Url.Action("OnDuty", "Home")" class="btnSave">上班打卡</a>                                  
+                <a href="@Url.Action("GetOff", "Home")" class="btnSave">下班打卡</a>  *@  
             </div>
         </div>
     </div>
 
+
     <script>
-                            // 初始化上班時間
+
+
         var workStartTime = null;
+        var intervalId = null;  // 用于存储 setInterval 返回的 ID
 
-        // 初始的目前過了的時間和上班時間
-        var initialPassTime = document.getElementById("pass-time").textContent;
-        var initialWorkTime = document.getElementById("work-hours").textContent;
-
-        // 上班打卡按鈕點擊事件處理
-        document.getElementById("on-duty").addEventListener("click", function () {
-            // 獲取現在的時間
-            var now = new Date();
-
-            // 格式化時間
-            var formattedTime = now.toLocaleString();
-
-            // 更新上班時間
-            workStartTime = now;
-
-            // 顯示當下時間並記錄上班時間
-            document.getElementById("work-hours").textContent = "上班時間：" + formattedTime;
-
-            // 清空目前過了的內容
-            document.getElementById("pass-time").textContent = "";
-
-            // 開始記錄上班時間
-            recordWorkTime();
-        });
-
-        // 下班打卡按鈕點擊事件處理
-        document.getElementById("get-off").addEventListener("click", function () {
-            // 清空上班時間
-            workStartTime = null;
-
-            // 回歸目前過了的內容成一開始的狀態
-            document.getElementById("pass-time").textContent = initialPassTime;
-
-            // 回歸上班時間成一開始的狀態
-            document.getElementById("work-hours").textContent = initialWorkTime;
-        });
-
-        // 開始記錄上班時間和計算目前過了多久
-        function recordWorkTime() {
-            // 檢查是否有上班時間
-            if (workStartTime) {
-                // 更新目前時間
-                var now = new Date();
-
-                // 計算過了多久
-                var elapsedTime = now - workStartTime;
-                var hours = Math.floor(elapsedTime / 3600000);
-                var minutes = Math.floor((elapsedTime % 3600000) / 60000);
-                var seconds = Math.floor((elapsedTime % 60000) / 1000);
-                var elapsedTimeText = hours + " 小時 " + minutes + " 分鐘 " + seconds + " 秒";
-
-                // 顯示目前過了的時間
-                document.getElementById("pass-time").textContent = "目前過了：" + elapsedTimeText;
-
-                // 每秒更新一次
-                setTimeout(recordWorkTime, 1000);
-            }
+        @if (!string.IsNullOrEmpty(ViewBag.worktime[0]?.Start))
+        {
+            <text>
+                                var originalStartTime = "@ViewBag.worktime[0].Start";
+            var formattedStartTime = new Date("@DateTime.Parse(ViewBag.worktime[0].Start).ToString("o")");
+            var workStartTime = formattedStartTime;
+            </text>
         }
+
+            // 格式化日期和时间为 "MM/dd/yyyy h:mm tt" 形式
+            function formatTime(date) {
+                var month = date.getMonth() + 1;
+                var day = date.getDate();
+                var year = date.getFullYear();
+                var hours = date.getHours();
+                var minutes = date.getMinutes();
+                var ampm = hours >= 12 ? 'PM' : 'AM';
+                hours = hours % 12;
+                hours = hours ? hours : 12; // 处理午夜 12 点
+                minutes = minutes < 10 ? '0' + minutes : minutes;
+                return month + '/' + day + '/' + year + ' ' + hours + ':' + minutes + ' ' + ampm;
+            }
 
         // 更新時間的函數
         function updateClock() {
+
             // 獲取現在的日期和時間
             var now = new Date();
 
             // 格式化日期和時間
-            var formattedTime = now.toLocaleString();
+            var formattedTime = formatTime(now);
 
             // 將格式化後的時間顯示在網頁上
             document.getElementById("current-time").textContent = "現在時間：" + formattedTime;
+
+            // 检查上班时间是否有效
+            if (workStartTime instanceof Date && !isNaN(workStartTime)) {
+                // 計算目前過了多少時間（毫秒）
+                var elapsedTimeInMillis = now - workStartTime;
+
+                // 計算時、分、秒
+                var seconds = Math.floor(elapsedTimeInMillis / 1000) % 60;
+                var minutes = Math.floor(elapsedTimeInMillis / (1000 * 60)) % 60;
+                var hours = Math.floor(elapsedTimeInMillis / (1000 * 60 * 60));
+
+                // 检查状态是否为 2，如果是，更新目前過了的时间字段为“已下班”
+                if (@ViewBag.worktime[0].State === 2) {
+                    document.getElementById("pass-time").textContent = "已下班~ 明天見!";
+                    clearInterval(intervalId);  // 停止更新
+                } else {
+                    // 格式化目前過了的時間
+                    var formattedElapsedTime = hours + ' 小時 ' + minutes + ' 分 ' + seconds + ' 秒';
+                    document.getElementById("pass-time").textContent = "目前過了：" + formattedElapsedTime;
+                }
+
+                // 格式化上班时间并更新
+                var formattedWorkStartTime = formatTime(workStartTime);
+                document.getElementById("work-hours").textContent = "上班時間：" + formattedWorkStartTime;
+            } else {
+                document.getElementById("pass-time").textContent = "未打卡";
+            }
         }
 
-        // 初始更新
-        updateClock();
-
-        // 每秒更新一次
-        setInterval(updateClock, 1000);
+        // 确保页面加载后立即调用updateClock
+        window.onload = function () {
+            updateClock();
+            // 每秒更新一次
+            intervalId = setInterval(updateClock, 1000);
+        }
     </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </div>
