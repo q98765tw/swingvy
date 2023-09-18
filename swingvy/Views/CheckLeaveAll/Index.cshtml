@@ -5,7 +5,7 @@
 }
 <div class="mt-4 container shadow-sm p-3 bg-body rounded bg-white text-center">
     <div class="col-12 fs-3">
-        <label for="">部門:</label>
+        <label for="">審核部門:</label>
             @switch (ViewBag.memberType)
             {
                 case 0:
@@ -61,19 +61,8 @@
                 <div class="col">@item.startTime</div>
                 <div class="col">@item.endTime</div>
                 <div class="col">
-                    <a href="@Url.Action("Index","CheckLeavePerson", new { leaveOrder_id = item.leaveOrder_id })">
-                        @switch (item.state)
-                        {
-                            case 0:
-                                <button type="button" class="btn btn-primary">未核准</button>
-                                break;
-                            case 1:
-                                <button type="button" class="btn btn-success">核准</button>
-                                break;
-                            case 2:
-                                <button type="button" class="btn btn-danger">駁回</button>
-                                break;
-                        }                       
+                    <a href="@Url.Action("Index","CheckLeavePerson", new { leaveOrder_id = item.leaveOrder_id })">    
+                        <button type="button" class="btn btn-primary">未核准</button>                                                                   
                     </a>
                 </div>
             </div>

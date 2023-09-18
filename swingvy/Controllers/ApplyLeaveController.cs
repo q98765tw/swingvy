@@ -20,6 +20,7 @@ namespace swingvy.Controllers
                         join md1 in _swingvyContext.memberData on leaveOrder.member_id equals md1.member_id
                         join md2 in _swingvyContext.memberData on md1.head equals md2.member_id
                         where leaveOrder.member_id == memberId
+                        orderby leaveOrder.startTime ascending
                         select new
                         {
                             type =leaveOrder.type,
