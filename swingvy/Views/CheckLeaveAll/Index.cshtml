@@ -5,8 +5,19 @@
 }
 <div class="mt-4 container shadow-sm p-3 bg-body rounded bg-white text-center">
     <div class="col-12 fs-3">
-        <label for="">部門:</label>
-        <label for="">後端</label>
+        <label for="">審核部門:</label>
+            @switch (ViewBag.memberType)
+            {
+                case 0:
+                    <label for="">UI/UX</label>
+                    break;
+                case 1:
+                    <label for="">前端</label>
+                    break;
+                case 2:
+                    <label for="">後端</label>
+                    break;
+            }
     </div>
 </div>
 <div class="mt-4 container shadow-sm p-3 bg-body rounded bg-white text-center">
@@ -22,16 +33,40 @@
         <div class="col">狀態</div>
     </div>
     <!-- foreach -->
-        <div class="mt-3 row">
-            <div class="col">How</div>
-            <div class="col">特休</div>
-            <div class="col">2023/09/13 09:00:00</div>
-            <div class="col">2023/09/20 09:00:00</div>
-            <div class="col">2023/09/20 18:00:00</div>
-            <div class="col">
-                <a href="/CheckLeavePerson/Index">
-                    <button type="button" class="btn btn-primary">未核准</button>
-                </a>
+    
+    @if (ViewBag.leaveList != null && ViewBag.leaveList.Count > 0)
+    {
+        @foreach (var item in ViewBag.leaveList)
+        {
+            <div class="mt-3 row">
+                <div class="col">@item.name</div>
+                <div class="col">
+                    @switch (item.leaveType)
+                    {
+                        case 0:
+                            <span>特休</span>
+                            break;
+                        case 1:
+                            <span>事假</span>
+                            break;
+                        case 2:
+                            <span>病假</span>
+                            break;
+                        case 3:
+                            <span>生理假</span>
+                            break;
+                    }
+                </div>
+                <div class="col">@item.applyTime</div>
+                <div class="col">@item.startTime</div>
+                <div class="col">@item.endTime</div>
+                <div class="col">
+                    <a href="@Url.Action("Index","CheckLeavePerson", new { leaveOrder_id = item.leaveOrder_id })">    
+                        <button type="button" class="btn btn-primary">未核准</button>                                                                   
+                    </a>
+                </div>
             </div>
-        </div>
+        }
+    }
+    
 </div>

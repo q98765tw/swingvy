@@ -24,7 +24,7 @@
                         <div class=""><h2><b>很高興見到您！</b></h2></div>
                         <div class="">還沒用過 Swingvy 嗎？</div>
                         <div class="my-1"><input type="text" name="account" style="width: 65%;" placeholder="account"></div>
-                        <div class="my-1"><input type="text" name="password" style="width: 65%;" placeholder="password"></div>
+                        <div class="my-1"><input type="password" name="password" style="width: 65%;" placeholder="password" minlength="3" required></div>
                         @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
                         {
                             <div class="text-danger">@ViewBag.ErrorMessage</div>
