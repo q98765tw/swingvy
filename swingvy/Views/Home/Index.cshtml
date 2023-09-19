@@ -86,7 +86,7 @@
         @if (!string.IsNullOrEmpty(ViewBag.worktime[0]?.Start))
         {
             <text>
-                                var originalStartTime = "@ViewBag.worktime[0].Start";
+            var originalStartTime = "@ViewBag.worktime[0].Start";
             var formattedStartTime = new Date("@DateTime.Parse(ViewBag.worktime[0].Start).ToString("o")");
             var workStartTime = formattedStartTime;
             </text>
@@ -120,11 +120,11 @@
 
             // 检查上班时间是否有效
             if (workStartTime instanceof Date && !isNaN(workStartTime)) {
-                // 計算目前過了多少時間（毫秒）
+                // 計算目前過了多少时间（毫秒）
                 var elapsedTimeInMillis = now - workStartTime;
 
                 // 計算時、分、秒
-                var seconds = Math.floor(elapsedTimeInMillis / 1000) % 60;
+                //var seconds = Math.floor(elapsedTimeInMillis / 1000) % 60;
                 var minutes = Math.floor(elapsedTimeInMillis / (1000 * 60)) % 60;
                 var hours = Math.floor(elapsedTimeInMillis / (1000 * 60 * 60));
 
@@ -134,7 +134,7 @@
                     clearInterval(intervalId);  // 停止更新
                 } else {
                     // 格式化目前過了的時間
-                    var formattedElapsedTime = hours + ' 小時 ' + minutes + ' 分 ' + seconds + ' 秒';
+                    var formattedElapsedTime = hours + ' 小時 ' + minutes + ' 分 ' /*+ seconds + ' 秒'*/;
                     document.getElementById("pass-time").textContent = "目前過了：" + formattedElapsedTime;
                 }
 
