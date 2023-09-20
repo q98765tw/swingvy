@@ -7,11 +7,13 @@ namespace swingvy.Controllers
 {
     public class ApplyLeaveController : Controller
     {
+        
         private readonly swingvyContext _swingvyContext;
         public ApplyLeaveController(swingvyContext context)
         {
             _swingvyContext = context;
         }
+
         public IActionResult Index()
         {
             string? member_id = Request.Cookies["member_id"];
@@ -23,10 +25,10 @@ namespace swingvy.Controllers
                         orderby leaveOrder.startTime ascending
                         select new
                         {
-                            type =leaveOrder.type,
+                            type = (LeaveType)leaveOrder.type,
                             startTime = leaveOrder.startTime,
-                            endTime =leaveOrder.endTime,
-                            state = leaveOrder.state,
+                            endTime = leaveOrder.endTime,
+                            state = (LeaveState)leaveOrder.state,
                             head_name = md2.name
                         };
             var resultList = query.ToList();
@@ -35,7 +37,7 @@ namespace swingvy.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ApplyLeave(int leaveType, DateTime? applyTime, DateTime? startTime, DateTime? endTime, string reason)
+        public async Task<IActionResult> ApplyLeave(LeaveType leaveType, DateTime? applyTime, DateTime? startTime, DateTime? endTime, string reason)
         {
             try
             {
@@ -46,12 +48,12 @@ namespace swingvy.Controllers
                 var leaveOrder = new leaveOrder
                 {
                     member_id = memberId,
-                    type = leaveType,
+                    type = (int)leaveType,
                     startTime = startTime,
                     endTime = endTime,
                     applyTime = applyTime,
                     reason = reason,
-                    state = 0,
+                    state = (int)LeaveState.未核准, // 默认为未核准状态
                     head = memberHead,
                 };
                 _swingvyContext.leaveOrder.Add(leaveOrder);
@@ -63,6 +65,5 @@ namespace swingvy.Controllers
                 return StatusCode(500, $"新增時發生錯誤: {ex.Message}");
             }
         }
-
     }
 }

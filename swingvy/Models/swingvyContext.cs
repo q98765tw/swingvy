@@ -4,11 +4,27 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using swingvy.Enums;
 
 namespace swingvy.Models
 {
+    public enum LeaveType
+    {
+        特休 = 0,
+        事假 = 1,
+        病假 = 2,
+        生理假 = 3
+    }
+
+    public enum LeaveState
+    {
+        未核准 = 0,
+        核准 = 1,
+        駁回 = 2
+    }
     public partial class swingvyContext : DbContext
     {
+       
         public swingvyContext()
         {
         }
