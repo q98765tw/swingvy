@@ -31,7 +31,12 @@
                         <td>
                             @item.state.ToString()
                         </td>
-                        <td>@item.head_name</td>
+                        <td>
+                            @if (item.state != 0)
+                            {
+                                @item.head_name  
+                            }
+                        </td>
                     </tr>
                 }
             }

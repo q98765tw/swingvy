@@ -1,10 +1,14 @@
 //
 $('#postData').on('click', () => {
+    var leaveType = $("#leaveType").val();
+    var startTime = $("#startTime").val();
+    var endTime = $("#endTime").val();
+    if (leaveType == "" || startTime == "" || endTime == "") {
+        alert("leaveType startTime endTime can not null");
+        return
+    }
     var confirmation = confirm("Are you sure");
-    if (confirmation) {
-        var leaveType = $("#leaveType").val();
-        var startTime = $("#startTime").val();
-        var endTime = $("#endTime").val();
+    if (confirmation) {    
         var reason = $("#reason").val();
         var currentDate = new Date().toLocaleDateString();
         console.log(typeof (currentDate))
