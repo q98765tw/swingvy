@@ -29,7 +29,7 @@ namespace swingvy.Models
             modelBuilder.Entity<calendar>(entity =>
             {
                 entity.HasKey(e => e.calendar_id)
-                    .HasName("PK__calendar__584C13446FE779A6");
+                    .HasName("PK__calendar__584C1344A5072E3C");
 
                 entity.Property(e => e.endTime).HasColumnType("datetime");
 
@@ -41,13 +41,13 @@ namespace swingvy.Models
                     .WithMany(p => p.calendar)
                     .HasForeignKey(d => d.member_id)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__calendar__member__08B54D69");
+                    .HasConstraintName("FK__calendar__member__3F466844");
             });
 
             modelBuilder.Entity<leaveOrder>(entity =>
             {
                 entity.HasKey(e => e.leaveOrder_id)
-                    .HasName("PK__leaveOrd__18AB28A67D5775D9");
+                    .HasName("PK__leaveOrd__18AB28A687EB1153");
 
                 entity.Property(e => e.applyTime).HasColumnType("datetime");
 
@@ -61,13 +61,13 @@ namespace swingvy.Models
                     .WithMany(p => p.leaveOrder)
                     .HasForeignKey(d => d.member_id)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__leaveOrde__membe__05D8E0BE");
+                    .HasConstraintName("FK__leaveOrde__membe__3C69FB99");
             });
 
             modelBuilder.Entity<member>(entity =>
             {
                 entity.HasKey(e => e.member_id)
-                    .HasName("PK__member__B29B8534571FCB67");
+                    .HasName("PK__member__B29B8534A1B0EBBA");
 
                 entity.Property(e => e.account)
                     .IsRequired()
@@ -81,7 +81,7 @@ namespace swingvy.Models
             modelBuilder.Entity<memberData>(entity =>
             {
                 entity.HasKey(e => e.memberData_id)
-                    .HasName("PK__memberDa__5811618CA662025E");
+                    .HasName("PK__memberDa__5811618C385105A0");
 
                 entity.Property(e => e.email).HasMaxLength(50);
 
@@ -95,13 +95,13 @@ namespace swingvy.Models
                     .WithMany(p => p.memberData)
                     .HasForeignKey(d => d.member_id)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__memberDat__membe__02FC7413");
+                    .HasConstraintName("FK__memberDat__membe__398D8EEE");
             });
 
             modelBuilder.Entity<worktime>(entity =>
             {
                 entity.HasKey(e => e.worktime_id)
-                    .HasName("PK__worktime__3593708FEA84FB48");
+                    .HasName("PK__worktime__3593708F23BC1E5F");
 
                 entity.Property(e => e.endTime).HasColumnType("datetime");
 
@@ -111,7 +111,7 @@ namespace swingvy.Models
                     .WithMany(p => p.worktime)
                     .HasForeignKey(d => d.member_id)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__worktime__member__0B91BA14");
+                    .HasConstraintName("FK__worktime__member__4222D4EF");
             });
 
             OnModelCreatingPartial(modelBuilder);
