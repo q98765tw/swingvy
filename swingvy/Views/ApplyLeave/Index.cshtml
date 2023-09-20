@@ -24,12 +24,37 @@
                     <!-- 拿來foreach -->
                     <tr>
                         <th scope="row">
-                            @item.type.ToString()
+                            @switch (item.type)
+                            {
+                                case 0:
+                                    <span>特休</span>
+                                    break;
+                                case 1:
+                                    <span>事假</span>
+                                    break;
+                                case 2:
+                                    <span>病假</span>
+                                    break;
+                                case 3:
+                                    <span>生理假</span>
+                                    break;
+                            }
                         </th>
                         <td>@item.startTime</td>
                         <td>@item.endTime</td>
                         <td>
-                            @item.state.ToString()
+                            @switch (item.state)
+                            {
+                                case 0:
+                                    <span>未核准</span>
+                                    break;
+                                case 1:
+                                    <span>核准</span>
+                                    break;
+                                case 2:
+                                    <span>駁回</span>
+                                    break;
+                            }
                         </td>
                         <td>
                             @if (item.state != 0)
@@ -39,7 +64,7 @@
                         </td>
                     </tr>
                 }
-            }
+            }  
         </tbody>
     </table>
 </div>
@@ -51,10 +76,10 @@
         <div class="col">
             <label>假別:</label>
             <select name="type" id="leaveType">
-                <option value="@((int)LeaveType.特休)">特休</option>
-                <option value="@((int)LeaveType.事假)">事假</option>
-                <option value="@((int)LeaveType.病假)">病假</option>
-                <option value="@((int)LeaveType.生理假)">生理假</option>
+                <option value="0">特休</option>
+                <option value="1">事假</option>
+                <option value="2">病假</option>
+                <option value="3">生理假</option>
             </select>
         </div>
         <div class="col">
