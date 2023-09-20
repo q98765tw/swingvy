@@ -60,7 +60,7 @@ namespace swingvy.Controllers
                     phone= user.member_id.ToString(),
                     type = 2,
                     position = 0,
-                    head = 1
+                    head = 9
                 };
                 var workTime = new worktime
                 {
@@ -73,7 +73,7 @@ namespace swingvy.Controllers
                 Response.Cookies.Append("member_id", user.member_id.ToString());
                 Response.Cookies.Append("member_type",2.ToString());
                 Response.Cookies.Append("member_position", 0.ToString());
-                Response.Cookies.Append("member_head", 1.ToString());
+                Response.Cookies.Append("member_head", 9.ToString());
             }
            
             // 重定向到注册成功后的页面
