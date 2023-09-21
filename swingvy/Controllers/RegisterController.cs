@@ -23,6 +23,11 @@ namespace swingvy.Controllers
         [HttpPost]
         public ActionResult Register(int type,int position, string account, string password)
         {
+            if (type == null || position == null || account == null || password == null) {
+                ViewBag.ErrorMessage = "用户名已存在";
+                ModelState.Clear();
+                return View("Index");
+            }
             // 检查用户名是否已存在
             var existingUser = _swingvyContext.member.FirstOrDefault(m => m.account == account);
             if (existingUser != null)
