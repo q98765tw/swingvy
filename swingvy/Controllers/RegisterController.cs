@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using swingvy.Enums;
 using swingvy.Models;
 using System.Numerics;
 using System.Security.Cryptography;
@@ -23,6 +24,7 @@ namespace swingvy.Controllers
         [HttpPost]
         public ActionResult Register(int type,int position, string account, string password)
         {
+    
             // 檢查用户名是否已存在
             var existingUser = _swingvyContext.member.FirstOrDefault(m => m.account == account);
             if (existingUser != null)
@@ -60,23 +62,23 @@ namespace swingvy.Controllers
                         name = user.member_id.ToString(),
                         email = user.member_id.ToString(),
                         phone = user.member_id.ToString(),
-                        type = type,
-                        position = 1,
+                        type = (Department)type,
+                        position = Position.Manager,
                         head = user.member_id
                     };
                     _swingvyContext.memberData.Add(newUserData);
                     Response.Cookies.Append("member_head", user.member_id.ToString());
                 }
                 else {
-                    var head = _swingvyContext.memberData.FirstOrDefault(m => m.type == type && m.position == 1);
+                    var head = _swingvyContext.memberData.FirstOrDefault(m => m.type == (Department)type && m.position == Position.Manager);
                     var newUserData = new memberData
                     {
                         member_id = user.member_id,
                         name = user.member_id.ToString(),
                         email = user.member_id.ToString(),
                         phone = user.member_id.ToString(),
-                        type = type,
-                        position = 0,
+                        type = (Department)type,
+                        position = Position.Employee,
                         head = head.head
                     };
                     _swingvyContext.memberData.Add(newUserData);

@@ -2,6 +2,7 @@
 using swingvy.Models;
 using System.Security.Cryptography;
 using System.Text;
+using swingvy.Enums;
 
 namespace swingvy.Controllers
 {
@@ -35,9 +36,13 @@ namespace swingvy.Controllers
                     var data = _swingvyContext.memberData.FirstOrDefault(m => m.member_id == id);
                     if (data != null)
                     {
+                        Position pos = (Position)data.position;
+                        Department typ = (Department)data.type;
+                        int positionValue = (int)pos;
+                        int typeValue = (int)typ;
                         Response.Cookies.Append("member_id", id.ToString());
-                        Response.Cookies.Append("member_type", data.type.ToString());
-                        Response.Cookies.Append("member_position", data.position.ToString());
+                        Response.Cookies.Append("member_type", typeValue.ToString());
+                        Response.Cookies.Append("member_position", positionValue.ToString());
                         Response.Cookies.Append("member_head", data.head.ToString());
                     }
                     // 重定向到登录成功后的页面

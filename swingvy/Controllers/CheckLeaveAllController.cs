@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using swingvy.Models;
+using swingvy.Enums;
 
 namespace swingvy.Controllers
 {
@@ -19,7 +20,7 @@ namespace swingvy.Controllers
             int.TryParse(member_type, out int memberType);
             var query = from leaveOrder in _swingvyContext.leaveOrder
                         join md1 in _swingvyContext.memberData on leaveOrder.member_id equals md1.member_id
-                        where md1.type == memberType && leaveOrder.state == 0 
+                        where md1.type == (Department)memberType && leaveOrder.state == 0 
                         orderby leaveOrder.startTime ascending
                         select new
                         {
