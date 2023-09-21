@@ -97,47 +97,4 @@
 
 
 
-@*<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>*@
-@*<script>
-    $(document).ready(function () {
-        $(".edit-button").click(function () {
-            var row = $(this).closest(".row");
-            var saveButton = row.find(".save-button");
-            var cancelButton = row.find(".cancel-button");
 
-            // Toggle the display of buttons
-            saveButton.toggle();
-            cancelButton.toggle();
-            $(this).toggle();  // Toggle the edit button
-
-            // Enable/disable inputs based on the edit mode
-            var inputs = row.find(".myInput");
-            inputs.prop("disabled", function (i, value) {
-                return !value;
-            });
-
-            // Save or restore initial values
-            inputs.each(function () {
-                var initialValue = $(this).val();
-                if (value) {
-                    $(this).siblings(".original-value").val(initialValue);
-                } else {
-                    var originalValue = $(this).siblings(".original-value").val();
-                    $(this).val(originalValue);
-                }
-            });
-        });
-
-        $(".save-button").click(function () {
-            // 在这里添加保存逻辑，将输入字段的值发送到服务器或执行其他保存操作
-            // 保存完成后，可以再次将输入字段设为 disabled，并隐藏取消和保存按钮
-            //測試變更
-            var row = $(this).closest(".row");
-            row.find(".myInput").prop("disabled", true);
-            row.find(".save-button").hide();
-            row.find(".edit-button").show();
-            row.find(".cancel-button").hide();
-        });
-    });
-</script>*@

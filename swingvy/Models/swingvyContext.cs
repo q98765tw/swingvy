@@ -18,6 +18,11 @@ namespace swingvy.Models
         {
         }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer("Server=DESKTOP-T9SKD9C;Database=swingvy;Trusted_Connection=True;TrustServerCertificate=true;");
+        }
+
         public virtual DbSet<calendar> calendar { get; set; }
         public virtual DbSet<leaveOrder> leaveOrder { get; set; }
         public virtual DbSet<member> member { get; set; }
