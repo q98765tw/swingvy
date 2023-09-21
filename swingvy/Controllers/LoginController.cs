@@ -22,19 +22,15 @@ namespace swingvy.Controllers
         [HttpPost]
         public ActionResult Login(string account, string password)
         {
-            // 帐号密码验证
             var user = _swingvyContext.member.FirstOrDefault(m => m.account == account);
             if (user != null)
             {
-                // 验证密码哈希值
+                //驗證hash
                 bool isPasswordCorrect = VerifyPasswordHash(password, user.PasswordHash, user.Salt);
 
                 if (isPasswordCorrect)
                 {
-                    // 登录成功
-                    // 根据需要执行其他登录相关的操作，例如设置认证Cookie等
-
-                    // 将用户帐号存入ViewBag以供后续使用
+                    // 登入成功
                     var id = user.member_id;
                     var data = _swingvyContext.memberData.FirstOrDefault(m => m.member_id == id);
                     if (data != null)
@@ -49,8 +45,7 @@ namespace swingvy.Controllers
                 }
             }
 
-            // 登录失败
-            // 可以执行相应的失败处理逻辑，例如显示错误消息
+            // 登入失败
             ViewBag.ErrorMessage = "帐号或密码错误";
             ModelState.Clear();
             return View("Index");
