@@ -6,55 +6,67 @@
 <!-- 我的休假申請 -->
 <div class="mt-4 container shadow-sm p-3 bg-body rounded bg-white text-center">
     <div class="col-12 fs-2">我的休假申請</div>
-    <div class="mt-2 row gx-0 ">
-        <div class="col">假別</div>
-        <div class="col">開始日</div>
-        <div class="col">結束日</div>
-        <div class="col">狀態</div>
-        <div class="col">核准人</div>
-    </div>
-    <!-- 拿來foreach -->
-    @if (ViewBag.apply != null && ViewBag.apply.Count > 0)
-    {
-        @foreach (var item in ViewBag.apply)
-        {
-            <div class="mt-2 row gx-0 ">
-                <div class="col">
-                    @switch (item.type) {
-                    case 0:
-                        <span>特休</span>
-                        break;
-                    case 1:
-                        <span>事假</span>
-                        break;
-                    case 2:
-                        <span>病假</span>
-                        break;
-                    case 3:
-                        <span>生理假</span>
-                        break;
-                    }
-                </div>
-                <div class="col">@item.startTime</div>
-                <div class="col">@item.endTime</div>
-                <div class="col">
-                    @switch (item.state)
-                    {
-                        case 0:
-                            <span>未核准</span>
-                            break;
-                        case 1:
-                            <span>核准</span>
-                            break;
-                        case 2:
-                            <span>駁回</span>
-                            break;
-                    }
-                </div>
-                <div class="col">@item.head_name</div>
-            </div>
-        }
-    }
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">假別</th>
+                <th scope="col">開始日</th>
+                <th scope="col">結束日</th>
+                <th scope="col">狀態</th>
+                <th scope="col">核准人</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (ViewBag.apply != null && ViewBag.apply.Count > 0)
+            {
+                @foreach (var item in ViewBag.apply)
+                {
+                    <!-- 拿來foreach -->
+                    <tr>
+                        <th scope="row">
+                            @switch (item.type)
+                            {
+                                case 0:
+                                    <span>特休</span>
+                                    break;
+                                case 1:
+                                    <span>事假</span>
+                                    break;
+                                case 2:
+                                    <span>病假</span>
+                                    break;
+                                case 3:
+                                    <span>生理假</span>
+                                    break;
+                            }
+                        </th>
+                        <td>@item.startTime</td>
+                        <td>@item.endTime</td>
+                        <td>
+                            @switch (item.state)
+                            {
+                                case 0:
+                                    <span>未核准</span>
+                                    break;
+                                case 1:
+                                    <span>核准</span>
+                                    break;
+                                case 2:
+                                    <span>駁回</span>
+                                    break;
+                            }
+                        </td>
+                        <td>
+                            @if (item.state != 0)
+                            {
+                                @item.head_name  
+                            }
+                        </td>
+                    </tr>
+                }
+            }  
+        </tbody>
+    </table>
 </div>
 <!-- 我的休假申請結束 -->
 <!-- 請假input -->
@@ -63,7 +75,7 @@
     <div class="mt-2 row gx-0 ">
         <div class="col">
             <label>假別:</label>
-            <select name="type" id="">
+            <select name="type" id="leaveType">
                 <option value="0">特休</option>
                 <option value="1">事假</option>
                 <option value="2">病假</option>
@@ -72,20 +84,24 @@
         </div>
         <div class="col">
             <label>開始日:</label>
-            <input type="date" class="calendar">
+            <input id="startTime" type="date" class="calendar">
+            @* <input id="startTime" type="datetime-local" class="calendar"> *@
         </div>
         <div class="col">
-            <label>開始日:</label>
-            <input type="date" class="calendar">
+            <label>結束日:</label>
+            <input id="endTime" type="date" class="calendar">
+            @* <input id="endTime" type="datetime-local" class="calendar"> *@
         </div>
     </div>
     <div class="mt-4 row gx-0">
         <div class="col">
-            <textarea name="" id="" cols="20" rows="3" placeholder="事由" style="width: 90%;"></textarea>
+            <textarea name="" id="reason" cols="20" rows="3" placeholder="事由" style="width: 90%;"></textarea>
         </div>
     </div>
     <div class="col-12">
-        <button type="button" class="btn btn-primary my-1">送出</button>
+        <button id="postData" type="button" class="btn btn-primary my-1">送出</button>
     </div>
 </div>
 <!-- 請假input結束 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="~/js/applyLeave.js"></script>

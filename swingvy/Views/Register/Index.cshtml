@@ -2,6 +2,8 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+}
+@{
     Layout = null;
 }
 <!DOCTYPE html>
@@ -19,20 +21,30 @@
         <div class="w-50 shadow-sm p-3 mb-5 bg-body rounded bg-white" style="margin-top: 10%;">
             <div class="row mt-2 gx-0">
                 <div class="col-2"></div>
-                <form action="/Login/Login" method="post">
+                <form action="/Register/Register" method="post">
                     <div class="col">
-                        <div class=""><h2><b>很高興見到您！</b></h2></div>
-                        <div class="">還沒用過 Swingvy 嗎？</div>
-                        <div class="my-1"><input type="text" name="account" style="width: 65%;" placeholder="account"></div>
+                        <div class=""><h2><b>註冊！</b></h2></div>
+                        <select name="type" id="leaveType" required>
+                            <option value="" disabled selected>部門</option>
+                            <option value="0">UI/UX</option>
+                            <option value="1">前端</option>
+                            <option value="2">後端</option>
+                        </select>
+                        <select name="position" id="leaveType" required>
+                            <option value="" disabled selected>職位</option>
+                            <option value="0">員工</option>
+                            <option value="1">主管</option>
+                        </select>
+                        <div class="my-1"><input type="text" name="account" style="width: 65%;" placeholder="account" required></div>
                         <div class="my-1"><input type="password" name="password" style="width: 65%;" placeholder="password" minlength="3" required></div>
                         @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
                         {
                             <div class="text-danger">@ViewBag.ErrorMessage</div>
                         }
-                        <input class="btn_submit" type="submit" value="登錄">
-                        <a href="/Register/Index">去註冊</a>
+                        <input class="btn_submit" type="submit" value="註冊">
+                        <a href="/Login/Index">去登入</a>
                     </div>
-                 </form>
+                </form>
             </div>
         </div>
     </div>

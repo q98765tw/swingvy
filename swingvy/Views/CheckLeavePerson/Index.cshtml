@@ -10,31 +10,52 @@
 </div>
 <div class="mt-4 container shadow-sm p-3 bg-body rounded bg-white text-center fs-4">
     <div class="col-12 fs-2">
-        <label for="">申請人 : How</label>
+        <label for="">申請人 : @ViewBag.person.name</label>
     </div>
     <div class="mt-4 row">
         <div class="col-6">
-            <label for="">假別 : 特休</label>
+            <label for="">假別 :</label>
+                @switch (ViewBag.person.type)
+                {
+                    case 0:
+                    <label id="leaveType">特休</label>
+                        break;
+                    case 1:
+                    <label id="leaveType">事假</label>
+                        break;
+                    case 2:
+                    <label id="leaveType">病假</label>
+                        break;
+                    case 3:
+                    <label id="leaveType">生理假</label>
+                        break;
+                }
+            
         </div>
         <div class="col-6">
-            <label for="">開始日 : 2023/09/20 09:00:00</label>
+            <label for="">開始日 : </label>
+            <label id="startTime">@ViewBag.person.startTime</label>
         </div>
     </div>
     <div class="mt-2 row">
         <div class="col-6">
-            <label for="">申請日 : 2023/09/13 09:00:00</label>
+            <label for="">申請日 :</label>
+            <label id="applyTime">@ViewBag.person.applyTime</label>
         </div>
         <div class="col-6">
-            <label for="">結束日 : 2023/09/20 16:00:00</label>
+            <label for="">結束日 : </label>
+            <label id="endTime">@ViewBag.person.endTime</label>
         </div>
     </div>
     <div class="mt-4 row gx-0">
         <div class="col">
-            <textarea name="" id="" cols="" rows="3" placeholder="事由" style="width: 90%;">肚子痛</textarea>
+            <textarea name="" id="" cols="" rows="3" placeholder="事由" style="width: 90%;">@ViewBag.person.reason</textarea>
         </div>
     </div>
     <div class="col-12">
-        <button type="button" class="btn btn-success my-1">核准</button>
-        <button type="button" class="btn btn-danger my-1">駁回</button>
+        <button id="approve" data-member-id="@ViewBag.person.member_id" data-leaveorder-id="@ViewBag.person.leaveOrder_id" type="button" class="btn btn-success my-1">核准</button>
+        <button id="reject" data-member-id="@ViewBag.person.member_id" data-leaveorder-id="@ViewBag.person.leaveOrder_id" type="button" class="btn btn-danger my-1">駁回</button>
     </div>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="~/js/CheckLeavePerson.js"></script>

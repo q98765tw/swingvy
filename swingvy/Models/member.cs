@@ -18,6 +18,8 @@ namespace swingvy.Models
         public int member_id { get; set; }
         public string account { get; set; }
         public string password { get; set; }
+        public byte[] PasswordHash { get; set; }
+        public byte[] Salt { get; set; }
 
         public virtual ICollection<calendar> calendar { get; set; }
         public virtual ICollection<leaveOrder> leaveOrder { get; set; }
