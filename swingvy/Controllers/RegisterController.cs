@@ -79,7 +79,7 @@ namespace swingvy.Controllers
                         phone = user.member_id.ToString(),
                         type = (Department)type,
                         position = Position.Employee,
-                        head = head.head
+                        head = head!.head
                     };
                     _swingvyContext.memberData.Add(newUserData);
                     Response.Cookies.Append("member_head", head.head.ToString());
@@ -105,7 +105,7 @@ namespace swingvy.Controllers
         private byte[] GenerateSalt()
         {
             byte[] salt = new byte[64]; // 64字节的盐值
-            using (var rng = new RNGCryptoServiceProvider())
+            using (RandomNumberGenerator rng = RandomNumberGenerator.Create())
             {
                 rng.GetBytes(salt);
             }
