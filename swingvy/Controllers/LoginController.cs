@@ -45,7 +45,7 @@ namespace swingvy.Controllers
                         Response.Cookies.Append("member_head", data.head.ToString());
                     }
                     // 重定向到登录成功后的页面
-                    return RedirectToAction("Index", "EmployeeList");
+                    return RedirectToAction("Index", "Home");
                 }
             }
 

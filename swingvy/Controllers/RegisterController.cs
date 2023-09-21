@@ -21,7 +21,7 @@ namespace swingvy.Controllers
         }
 
         [HttpPost]
-        public ActionResult Register(string account, string password)
+        public ActionResult Register(int type,int position, string account, string password)
         {
             // 检查用户名是否已存在
             var existingUser = _swingvyContext.member.FirstOrDefault(m => m.account == account);
@@ -50,34 +50,55 @@ namespace swingvy.Controllers
             _swingvyContext.SaveChanges();
             // 注册成功，可以执行其他操作，如登录用户等
             var user = _swingvyContext.member.FirstOrDefault(m => m.account == account && m.password == password);
+            
             if (user != null)
             {
-                var newUserData = new memberData
+                if (position == 1)
                 {
-                    member_id = user.member_id,
-                    name= user.member_id.ToString(),
-                    email = user.member_id.ToString(),
-                    phone= user.member_id.ToString(),
-                    type = 2,
-                    position = 0,
-                    head = 9
-                };
+                    var newUserData = new memberData
+                    {
+                        member_id = user.member_id,
+                        name = user.member_id.ToString(),
+                        email = user.member_id.ToString(),
+                        phone = user.member_id.ToString(),
+                        type = type,
+                        position = 1,
+                        head = user.member_id
+                    };
+                    _swingvyContext.memberData.Add(newUserData);
+                    Response.Cookies.Append("member_head", user.member_id.ToString());
+                }
+                else {
+                    var head = _swingvyContext.memberData.FirstOrDefault(m => m.type == type && m.position == 1);
+                    var newUserData = new memberData
+                    {
+                        member_id = user.member_id,
+                        name = user.member_id.ToString(),
+                        email = user.member_id.ToString(),
+                        phone = user.member_id.ToString(),
+                        type = type,
+                        position = 0,
+                        head = head.head
+                    };
+                    _swingvyContext.memberData.Add(newUserData);
+                    Response.Cookies.Append("member_head", head.head.ToString());
+                }
                 var workTime = new worktime
                 {
                     member_id = user.member_id,
                 };
-                _swingvyContext.memberData.Add(newUserData);
+                
                 _swingvyContext.worktime.Add(workTime);
                 _swingvyContext.SaveChanges();
 
                 Response.Cookies.Append("member_id", user.member_id.ToString());
-                Response.Cookies.Append("member_type",2.ToString());
-                Response.Cookies.Append("member_position", 0.ToString());
-                Response.Cookies.Append("member_head", 9.ToString());
+                Response.Cookies.Append("member_type", type.ToString());
+                Response.Cookies.Append("member_position", position.ToString());
+               
             }
            
             // 重定向到注册成功后的页面
-            return RedirectToAction("Index", "EmployeeList");
+            return RedirectToAction("Index", "MemberCenter");
         }
 
         private byte[] GenerateSalt()
