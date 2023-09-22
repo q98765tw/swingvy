@@ -48,8 +48,21 @@ namespace swingvy.Controllers
                 PasswordHash = passwordHash,
                 Salt = salt
             };
+
             _swingvyContext.member.Add(newUser);
             _swingvyContext.SaveChanges();
+
+            //寫入行事曆的資料庫
+            var CalNewMember = new calendar
+            {
+                member_id = newUser.member_id,
+                startTime = DateTime.Now,
+                endTime = DateTime.Now,
+                name = "到職"
+            };
+            _swingvyContext.calendar.Add(CalNewMember);
+            _swingvyContext.SaveChanges();
+
             //判斷主管員工，並自動登入
             var user = _swingvyContext.member.FirstOrDefault(m => m.account == account && m.password == password);
             if (user != null)
