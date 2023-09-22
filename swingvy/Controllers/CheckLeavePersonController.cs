@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using swingvy.Enums;
 using swingvy.Models;
 
 namespace swingvy.Controllers
@@ -37,7 +38,7 @@ namespace swingvy.Controllers
             {
                 var approve = _swingvyContext.leaveOrder.Find(leaveOrder_id);
                 if (approve != null) { 
-                    approve.state = 1;
+                    approve.state = LeaveState.Approve;
                 }
                 var calendar = new calendar
                 {
@@ -62,7 +63,7 @@ namespace swingvy.Controllers
                 var reject = _swingvyContext.leaveOrder.Find(leaveOrder_id);
                 if (reject != null)
                 {
-                    reject.state = 2;
+                    reject.state = LeaveState.Reject;
                 }              
                 await _swingvyContext.SaveChangesAsync();
                 return Ok();

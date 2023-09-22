@@ -1,4 +1,5 @@
-﻿@*
+﻿@using swingvy.Enums;
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
@@ -17,17 +18,17 @@
             <label for="">假別 :</label>
                 @switch (ViewBag.person.type)
                 {
-                    case 0:
-                    <label id="leaveType">特休</label>
+                    case LeaveType.Special:
+                        <label id="leaveType">特休</label>
                         break;
-                    case 1:
-                    <label id="leaveType">事假</label>
+                    case LeaveType.Personal:
+                        <label id="leaveType">事假</label>
                         break;
-                    case 2:
-                    <label id="leaveType">病假</label>
+                    case LeaveType.Sick:
+                        <label id="leaveType">病假</label>
                         break;
-                    case 3:
-                    <label id="leaveType">生理假</label>
+                    case LeaveType.Menstrual:
+                        <label id="leaveType">生理假</label>
                         break;
                 }
             

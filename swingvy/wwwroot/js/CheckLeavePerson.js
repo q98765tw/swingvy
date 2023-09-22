@@ -48,7 +48,7 @@ $('#reject').on('click', function () {
             endTime: endTime,
         };
         $.ajax({
-            url: "/CheckLeavePerson/ApproveLeave", // 請根據您的Controller路由進行調整
+            url: "/CheckLeavePerson/RejectLeave", // 請根據您的Controller路由進行調整
             type: "POST",
             data: data,
             success: function (result) {
