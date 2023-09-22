@@ -1,4 +1,5 @@
-﻿<div class="container mt-3">
+﻿@using swingvy.Enums;
+<div class="container mt-3">
     <div class="p-4 ">
         <table class="table table-striped">
             <colgroup>
@@ -28,13 +29,13 @@
                     string Pition;
                     switch (i.Depart)
                     {
-                        case 0:
+                        case Department.UIUX:
                             Depa = "UI/UX";
                             break;
-                        case 1:
+                        case Department.Frondend:
                             Depa = "前端";
                             break;
-                        case 2:
+                        case Department.Backend:
                             Depa = "後端";
                             break;
                         default:
@@ -44,10 +45,10 @@
 
                     switch (i.Ption)
                     {
-                        case 0:
+                        case Position.Employee:
                             Pition = "員工";
                             break;
-                        case 1:
+                        case Position.Manager:
                             Pition = "主管";
                             break;
                         default:

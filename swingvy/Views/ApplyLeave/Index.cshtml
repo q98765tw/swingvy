@@ -1,7 +1,9 @@
-﻿@*
+﻿@using swingvy.Enums;
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    
 }
 <!-- 我的休假申請 -->
 <div class="mt-4 container shadow-sm p-3 bg-body rounded bg-white text-center">
@@ -26,16 +28,16 @@
                         <th scope="row">
                             @switch (item.type)
                             {
-                                case 0:
+                                case LeaveType.Special:
                                     <span>特休</span>
                                     break;
-                                case 1:
+                                case LeaveType.Personal:
                                     <span>事假</span>
                                     break;
-                                case 2:
+                                case LeaveType.Sick:
                                     <span>病假</span>
                                     break;
-                                case 3:
+                                case LeaveType.Menstrual:
                                     <span>生理假</span>
                                     break;
                             }
@@ -45,13 +47,13 @@
                         <td>
                             @switch (item.state)
                             {
-                                case 0:
+                                case LeaveState.Not:
                                     <span>未核准</span>
                                     break;
-                                case 1:
+                                case LeaveState.Approve:
                                     <span>核准</span>
                                     break;
-                                case 2:
+                                case LeaveState.Reject:
                                     <span>駁回</span>
                                     break;
                             }

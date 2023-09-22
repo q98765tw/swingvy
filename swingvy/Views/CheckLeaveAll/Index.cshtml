@@ -1,4 +1,5 @@
-﻿@*
+﻿@using swingvy.Enums;
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
@@ -8,13 +9,13 @@
         <label for="">審核部門:</label>
             @switch (ViewBag.memberType)
             {
-                case 0:
+                case Department.UIUX:
                     <label for="">UI/UX</label>
                     break;
-                case 1:
+                case Department.Frondend:
                     <label for="">前端</label>
                     break;
-                case 2:
+                case Department.Backend:
                     <label for="">後端</label>
                     break;
             }
@@ -46,16 +47,16 @@
                         <td>
                             @switch (item.leaveType)
                             {
-                                case 0:
+                                case LeaveType.Special:
                                     <span>特休</span>
                                     break;
-                                case 1:
+                                case LeaveType.Personal:
                                     <span>事假</span>
                                     break;
-                                case 2:
+                                case LeaveType.Sick:
                                     <span>病假</span>
                                     break;
-                                case 3:
+                                case LeaveType.Menstrual:
                                     <span>生理假</span>
                                     break;
                             }

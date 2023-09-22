@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using swingvy.Enums;
 using swingvy.Models;
 using System.Numerics;
 using System.Security.Cryptography;
@@ -23,12 +24,8 @@ namespace swingvy.Controllers
         [HttpPost]
         public ActionResult Register(int type,int position, string account, string password)
         {
-            if (type == null || position == null || account == null || password == null) {
-                ViewBag.ErrorMessage = "用户名已存在";
-                ModelState.Clear();
-                return View("Index");
-            }
-            // 检查用户名是否已存在
+    
+            // 檢查用户名是否已存在
             var existingUser = _swingvyContext.member.FirstOrDefault(m => m.account == account);
             if (existingUser != null)
             {
@@ -53,9 +50,8 @@ namespace swingvy.Controllers
             };
             _swingvyContext.member.Add(newUser);
             _swingvyContext.SaveChanges();
-            // 注册成功，可以执行其他操作，如登录用户等
+            //判斷主管員工，並自動登入
             var user = _swingvyContext.member.FirstOrDefault(m => m.account == account && m.password == password);
-            
             if (user != null)
             {
                 if (position == 1)
@@ -66,24 +62,24 @@ namespace swingvy.Controllers
                         name = user.member_id.ToString(),
                         email = user.member_id.ToString(),
                         phone = user.member_id.ToString(),
-                        type = type,
-                        position = 1,
+                        type = (Department)type,
+                        position = Position.Manager,
                         head = user.member_id
                     };
                     _swingvyContext.memberData.Add(newUserData);
                     Response.Cookies.Append("member_head", user.member_id.ToString());
                 }
                 else {
-                    var head = _swingvyContext.memberData.FirstOrDefault(m => m.type == type && m.position == 1);
+                    var head = _swingvyContext.memberData.FirstOrDefault(m => m.type == (Department)type && m.position == Position.Manager);
                     var newUserData = new memberData
                     {
                         member_id = user.member_id,
                         name = user.member_id.ToString(),
                         email = user.member_id.ToString(),
                         phone = user.member_id.ToString(),
-                        type = type,
-                        position = 0,
-                        head = head.head
+                        type = (Department)type,
+                        position = Position.Employee,
+                        head = head!.head
                     };
                     _swingvyContext.memberData.Add(newUserData);
                     Response.Cookies.Append("member_head", head.head.ToString());
@@ -109,7 +105,7 @@ namespace swingvy.Controllers
         private byte[] GenerateSalt()
         {
             byte[] salt = new byte[64]; // 64字节的盐值
-            using (var rng = new RNGCryptoServiceProvider())
+            using (RandomNumberGenerator rng = RandomNumberGenerator.Create())
             {
                 rng.GetBytes(salt);
             }

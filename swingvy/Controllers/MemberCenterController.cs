@@ -74,8 +74,8 @@ namespace swingvy.Controllers
                 notebook.name = GetName;
                 notebook.email = GetMail;
                 notebook.phone = GetPhone;
-                notebook.type = DepaNum;
-                notebook.position = PtionNum;
+                notebook.type = (Enums.Department)DepaNum;
+                notebook.position = (Enums.Position)PtionNum;
                 _swingvyContext.SaveChanges();
             };
             return RedirectToAction("Index", "MemberCenter");

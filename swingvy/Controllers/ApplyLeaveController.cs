@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using swingvy.Models;
 using System.Reflection;
-
+using swingvy.Enums;
 namespace swingvy.Controllers
 {
     public class ApplyLeaveController : Controller
@@ -46,12 +46,12 @@ namespace swingvy.Controllers
                 var leaveOrder = new leaveOrder
                 {
                     member_id = memberId,
-                    type = leaveType,
+                    type = (Enums.LeaveType)leaveType,
                     startTime = startTime,
                     endTime = endTime,
                     applyTime = applyTime,
                     reason = reason,
-                    state = 0,
+                    state = LeaveState.Not,
                     head = memberHead,
                 };
                 _swingvyContext.leaveOrder.Add(leaveOrder);
