@@ -80,5 +80,51 @@ namespace swingvy.Controllers
             };
             return RedirectToAction("Index", "MemberCenter");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> UploadProfilePicture(string cropped_image)
+        {
+            /*var userId = 1;*/
+            string userIdStr = Request.Cookies["member_id"];
+            int.TryParse(userIdStr, out int userId);
+
+            // 從身份驗證 Cookie 中獲取當前登錄會員的 ID
+            //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            // 從 Cookie 中獲取當前登錄會員的 ID
+            //var userId = Request.Cookies["YourCookieName"];
+
+            // 檢查是否有文件被上傳
+            if (string.IsNullOrEmpty(cropped_image))
+            {
+                TempData["Message"] = "請選擇一個文件上傳。";
+                return RedirectToAction("Index", "MemberCenter");
+            }
+
+            // 將 base64 編碼的圖片數據轉換為 byte[]
+            var base64Data = cropped_image.Substring(cropped_image.IndexOf(',') + 1);
+            var imageBytes = Convert.FromBase64String(base64Data);
+
+            // 將文件保存到某個路徑
+            var fileName = userId +"HeadPhoto"+".jpg";  // 裁剪後的圖片將被保存為 .jpg 文件
+            var filePath = Path.Combine("wwwroot", "img", fileName);
+            await System.IO.File.WriteAllBytesAsync(filePath, imageBytes);
+
+            // 更新使用者的頭像路徑
+            var user = _swingvyContext.memberData.FirstOrDefault(m => m.member_id == userId);
+
+            if (user == null)
+            {
+                // 處理 user 為 null 的情況
+                TempData["Message"] = "User not found.";
+                return RedirectToAction("Index", "MemberCenter");
+            }
+            user.img_url = "~/img/" + fileName;
+
+            _swingvyContext.SaveChanges();
+            TempData["Message"] = "頭像上傳成功。";
+            return RedirectToAction("Index", "MemberCenter");
+        }
+
+
     }
 }
