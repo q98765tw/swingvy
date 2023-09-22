@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using swingvy.Models;
 using System.Diagnostics;
+using swingvy.Enums;
 
 namespace swingvy.Controllers
 {
@@ -45,7 +46,7 @@ namespace swingvy.Controllers
                                    select new
                                    {
                                        Start = w.startTime.ToString(),
-                                       State = w.state
+                                       State = ((WorkState)w.state).ToString(),
                                    };
 
             ViewBag.worktime = workTimeRecord_3.ToList();
