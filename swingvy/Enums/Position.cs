@@ -3,6 +3,7 @@
     public enum Position
     {
         Employee,
-        Manager
+        Manager,
+        Unknown
     }
 }

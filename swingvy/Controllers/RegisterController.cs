@@ -72,12 +72,13 @@ namespace swingvy.Controllers
                     var newUserData = new memberData
                     {
                         member_id = user.member_id,
-                        name = user.member_id.ToString(),
-                        email = user.member_id.ToString(),
-                        phone = user.member_id.ToString(),
+                        name = "請填寫姓名",
+                        email = "請填寫信箱",
+                        phone = "請填寫電話",
                         type = (Department)type,
                         position = Position.Manager,
-                        head = user.member_id
+                        head = user.member_id,
+                        img_url = "~/img/avatar24-01.png"
                     };
                     _swingvyContext.memberData.Add(newUserData);
                     Response.Cookies.Append("member_head", user.member_id.ToString());
@@ -87,12 +88,13 @@ namespace swingvy.Controllers
                     var newUserData = new memberData
                     {
                         member_id = user.member_id,
-                        name = user.member_id.ToString(),
-                        email = user.member_id.ToString(),
-                        phone = user.member_id.ToString(),
+                        name = "請填寫姓名",
+                        email = "請填寫信箱",
+                        phone = "請填寫電話",
                         type = (Department)type,
                         position = Position.Employee,
-                        head = head!.head
+                        head = head!.head,
+                        img_url = "~/img/avatar24-01.png"
                     };
                     _swingvyContext.memberData.Add(newUserData);
                     Response.Cookies.Append("member_head", head.head.ToString());

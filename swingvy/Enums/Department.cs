@@ -4,6 +4,7 @@
     {
         UIUX,
         Frondend,
-        Backend
+        Backend,
+        Unknown
     }
 }

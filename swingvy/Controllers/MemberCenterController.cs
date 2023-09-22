@@ -32,7 +32,7 @@ namespace swingvy.Controllers
         }
 
         [HttpPost]
-        public ActionResult ChangeIfo(string GetName,string GetMail,string GetPhone,string GetDepa,string GetPtion)
+        public ActionResult ChangeIfo(string GetName, string GetMail, string GetPhone, string GetDepa, string GetPtion)
         {
             string userIdStr = Request.Cookies["member_id"];
             int.TryParse(userIdStr, out int userId);
@@ -80,6 +80,9 @@ namespace swingvy.Controllers
             };
             return RedirectToAction("Index", "MemberCenter");
         }
+
+
+
 
         [HttpPost]
         public async Task<IActionResult> UploadProfilePicture(string cropped_image)
