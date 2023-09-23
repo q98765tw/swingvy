@@ -37,7 +37,7 @@ namespace swingvy.Controllers
                 var workTimeRecord_2 = _swingvyContext.worktime.FirstOrDefault(n => n.member_id == userId);
                 workTimeRecord_2.endTime = null;
                 workTimeRecord_2.startTime = null;
-                workTimeRecord_2.state = 0;
+                workTimeRecord_2.state = (int)WorkState.No;
                 _swingvyContext.SaveChanges();
             }
 
@@ -74,7 +74,7 @@ namespace swingvy.Controllers
             int.TryParse(userIdStr, out int userId);
             var workTimeRecord = _swingvyContext.worktime.FirstOrDefault(w => w.member_id == userId);
             workTimeRecord.startTime = DateTime.Now;
-            workTimeRecord.state = 1;
+            workTimeRecord.state = (int)WorkState.Ing;
             _swingvyContext.SaveChanges();
 
             return RedirectToAction("Index","Home");
@@ -86,7 +86,7 @@ namespace swingvy.Controllers
             int.TryParse(userIdStr, out int userId);
             var workTimeRecord = _swingvyContext.worktime.FirstOrDefault(w => w.member_id == userId);
             workTimeRecord.endTime = DateTime.Now;
-            workTimeRecord.state = 2;
+            workTimeRecord.state = (int)WorkState.Yes;
             _swingvyContext.SaveChanges();
 
             return RedirectToAction("Index", "Home");
