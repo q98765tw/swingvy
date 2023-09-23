@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using swingvy.Models;
 using System;
+using swingvy.Enums;
 
 namespace swingvy.Controllers
 {
@@ -42,29 +43,29 @@ namespace swingvy.Controllers
             switch (GetDepa)
             {
                 case "UI/UX":
-                    DepaNum = 0;
+                    DepaNum = (int)Department.UIUX;
                     break;
                 case "前端":
-                    DepaNum = 1;
+                    DepaNum = (int)Department.Frondend;
                     break;
                 case "後端":
-                    DepaNum = 2;
+                    DepaNum = (int)Department.Backend;
                     break;
                 default:
-                    DepaNum = 404;
+                    DepaNum = (int)Department.Unknown;
                     break;
             }
 
             switch (GetPtion)
             {
                 case "員工":
-                    PtionNum = 0;
+                    PtionNum = (int)Position.Employee;
                     break;
                 case "主管":
-                    PtionNum = 1;
+                    PtionNum = (int)Position.Manager;
                     break;
                 default:
-                    PtionNum = 404;
+                    PtionNum = (int)Position.Unknown;
                     break;
             }
 
