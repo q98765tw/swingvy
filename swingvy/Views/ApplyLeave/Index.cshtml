@@ -59,7 +59,7 @@
                             }
                         </td>
                         <td>
-                            @if (item.state != 0)
+                            @if (item.state != LeaveState.Not)
                             {
                                 @item.head_name  
                             }
@@ -78,10 +78,10 @@
         <div class="col">
             <label>假別:</label>
             <select name="type" id="leaveType">
-                <option value="0">特休</option>
-                <option value="1">事假</option>
-                <option value="2">病假</option>
-                <option value="3">生理假</option>
+                <option value="@LeaveType.Special">特休</option>
+                <option value="@LeaveType.Personal">事假</option>
+                <option value="@LeaveType.Sick">病假</option>
+                <option value="@LeaveType.Menstrual">生理假</option>
             </select>
         </div>
         <div class="col">
