@@ -67,7 +67,7 @@ namespace swingvy.Controllers
             var user = _swingvyContext.member.FirstOrDefault(m => m.account == account && m.password == password);
             if (user != null)
             {
-                if (position == 1)
+                if (position == (int)Position.Manager)
                 {
                     var newUserData = new memberData
                     {

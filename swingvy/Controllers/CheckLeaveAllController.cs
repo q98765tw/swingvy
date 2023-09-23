@@ -15,7 +15,7 @@ namespace swingvy.Controllers
         public IActionResult Index()
         {
             string? member_position = Request.Cookies["member_position"];
-            if (member_position == "0") { return RedirectToAction("Privacy", "Home"); }
+            if (member_position == ((int)Position.Employee).ToString()) { return RedirectToAction("Privacy", "Home"); }
             string? member_type = Request.Cookies["member_type"];
             int.TryParse(member_type, out int memberType);
             var query = from leaveOrder in _swingvyContext.leaveOrder
