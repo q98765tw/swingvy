@@ -3,14 +3,15 @@ using swingvy.Models;
 using System.Security.Cryptography;
 using System.Text;
 using swingvy.Enums;
+using static swingvy.Models.swingvyContext;
 
 namespace swingvy.Controllers
 {
     public class LoginController : Controller
     {
-        private readonly swingvyContext _swingvyContext;
-
-        public LoginController(swingvyContext context)
+        //private readonly swingvyContext _swingvyContext;
+        private readonly ISwingvyContext _swingvyContext;
+        public LoginController(ISwingvyContext context)
         {
             _swingvyContext = context;
         }
@@ -46,14 +47,15 @@ namespace swingvy.Controllers
                         Response.Cookies.Append("member_head", data.head.ToString());
                     }
                     // 重定向到登录成功后的页面
-                    return RedirectToAction("Index", "Home");
+                    
                 }
+                return RedirectToAction("Index", "Home");
             }
 
             // 登入失败
             ViewBag.ErrorMessage = "帐号或密码错误";
             ModelState.Clear();
-            return View("Index");
+            return RedirectToAction("Index");
         }
 
         // 验证密码哈希值的方法
