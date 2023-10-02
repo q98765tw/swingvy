@@ -2,13 +2,24 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace swingvy.Models
 {
+    public interface ISwingvyContext
+    {
+        IQueryable<member> member { get; }
+        IQueryable<memberData> memberData { get; }
+        IQueryable<leaveOrder> leaveOrder { get;}
+        IQueryable<calendar> calendar { get; }
+        IQueryable<worktime> worktime { get; }
+        // 其他需要的成員...
+    }
     public partial class swingvyContext : DbContext
     {
+        
         public swingvyContext()
         {
         }
