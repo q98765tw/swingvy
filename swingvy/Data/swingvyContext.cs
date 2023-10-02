@@ -20,6 +20,7 @@ namespace swingvy.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            //optionsBuilder.UseSqlServer("Server=DESKTOP-8S6SNBN\\MSSQLSERVER01;Database=swingvy;Trusted_Connection=True;TrustServerCertificate=true;");
             optionsBuilder.UseSqlServer("Server=DESKTOP-T9SKD9C;Database=swingvy;Trusted_Connection=True;TrustServerCertificate=true;");
         }
 
