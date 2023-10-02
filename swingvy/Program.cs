@@ -8,6 +8,10 @@ using swingvy.Services;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<swingvyContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("TestBananaContext")));
 // Add services to the container.
+
+// Add CalendarService registration ¦æ¨Æ¾ä
+builder.Services.AddScoped<CalendarService>();
+builder.Services.AddScoped<EmployeeListService>();
 builder.Services.AddControllersWithViews();
 //Service
 builder.Services.AddTransient<RegisterService>();

@@ -18,7 +18,7 @@
         {
             @foreach (var GetCal in ViewBag.CalData)
             {
-                var thing = GetCal.MemberName + "的" + GetCal.memAct;
+                var thing = GetCal.MemberName + "的" + GetCal.MemAct;
                 @:CalIfo.push({
                 @:title: @Html.Raw(Json.Serialize(thing)),
                 @:start: @Html.Raw(Json.Serialize(GetCal.StTime)),
