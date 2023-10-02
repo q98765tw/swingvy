@@ -9,9 +9,9 @@ namespace swingvy.Controllers
 {
     public class LoginController : Controller
     {
-        //private readonly swingvyContext _swingvyContext;
-        private readonly ISwingvyContext _swingvyContext;
-        public LoginController(ISwingvyContext context)
+        private readonly swingvyContext _swingvyContext;
+        //private readonly ISwingvyContext _swingvyContext;
+        public LoginController(swingvyContext context)
         {
             _swingvyContext = context;
         }
