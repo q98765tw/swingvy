@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using swingvy.Controllers;
+using swingvy.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<swingvyContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("TestBananaContext")));
@@ -10,6 +11,7 @@ builder.Services.AddDbContext<swingvyContext>(options => options.UseSqlServer(bu
 
 // Add CalendarService registration ¦æ¨Æ¾ä
 builder.Services.AddScoped<CalendarService>();
+builder.Services.AddScoped<EmployeeListService>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

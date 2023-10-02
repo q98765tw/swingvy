@@ -1,27 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using swingvy.Enums;
 using swingvy.Models;
+using swingvy.Services;
 
 namespace swingvy.Controllers
 {
     public class EmployeeListController : Controller
     {
-        private readonly swingvyContext _swingvyContext;
-        public EmployeeListController(swingvyContext context)
+        private readonly EmployeeListService _EmployeeListService;
+        public EmployeeListController(EmployeeListService context)
         {
-            _swingvyContext = context;
+            _EmployeeListService = context;
         }
         public IActionResult Index()
         {
-            var Bag = from w in _swingvyContext.memberData
-                      select new
-                      {
-                          Name = w.name,
-                          Depart = w.type,
-                          Ption = w.position,
-                          Mail = w.email,
-                          Phone = w.phone
-                      };
-            ViewBag.Emp_List = Bag.ToList();
+            var Bag = _EmployeeListService.GetEmployeeData();
+            ViewBag.Emp_List = Bag;
             return View();
         }
     }
