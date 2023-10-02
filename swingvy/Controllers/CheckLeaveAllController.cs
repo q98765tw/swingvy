@@ -12,10 +12,11 @@ namespace swingvy.Controllers
         {
             _swingvyContext = context;
         }
+        
         public IActionResult Index()
         {
             string? member_position = Request.Cookies["member_position"];
-            if (member_position == ((int)Position.Employee).ToString()) { return RedirectToAction("Privacy", "Home"); }
+            if (member_position == ((int)Position.Employee).ToString()) { return RedirectToAction("Privacy"); }
             string? member_type = Request.Cookies["member_type"];
             int.TryParse(member_type, out int memberType);
             var query = from leaveOrder in _swingvyContext.leaveOrder
@@ -34,6 +35,10 @@ namespace swingvy.Controllers
             var resultList = query.ToList();
             ViewBag.leaveList = resultList;
             ViewBag.memberType = memberType;
+            return View();
+        }
+        public IActionResult Privacy()
+        {
             return View();
         }
     }
