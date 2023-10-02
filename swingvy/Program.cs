@@ -3,12 +3,16 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using swingvy.Repositories;
+using swingvy.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<swingvyContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("TestBananaContext")));
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+//Service
 builder.Services.AddTransient<RegisterService>();
+builder.Services.AddTransient<LoginService>();
+//Repository
 builder.Services.AddTransient<MemberRepository>();
 builder.Services.AddTransient<MemberDataRepository>();
 builder.Services.AddTransient<CalendarRepository>();

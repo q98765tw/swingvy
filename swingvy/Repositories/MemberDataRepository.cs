@@ -16,9 +16,13 @@ namespace swingvy.Repositories
             _context.memberData.Add(user);
             _context.SaveChanges();
         }
-        public memberData FindHead(int type,int position)
+        public memberData? GetUserById(int id)
         {
-            return _context.memberData.FirstOrDefault(m => m.type == (Department)type && m.position == Position.Manager);
+            return _context.memberData.FirstOrDefault(m => m.member_id == id);
+        }
+        public memberData? FindHead(int type,int position)
+        {
+            return _context.memberData.FirstOrDefault(m => m.type == (Department)type && m.position == (Position)position);
         }
     }
 }

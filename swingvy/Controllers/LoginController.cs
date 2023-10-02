@@ -4,16 +4,24 @@ using System.Security.Cryptography;
 using System.Text;
 using swingvy.Enums;
 using static swingvy.Models.swingvyContext;
+using swingvy.Repositories;
+using swingvy.Services;
 
 namespace swingvy.Controllers
 {
     public class LoginController : Controller
     {
-        private readonly swingvyContext _swingvyContext;
+        private readonly LoginService _loginService;
+        private readonly MemberRepository _memberRepository;
+        private readonly MemberDataRepository _memberDataRepository;
+        private readonly WorktimeRepository _worktimeRepository;
         //private readonly ISwingvyContext _swingvyContext;
-        public LoginController(swingvyContext context)
+        public LoginController(LoginService loginService, MemberRepository memberRepository, MemberDataRepository memberDataRepository, WorktimeRepository worktimeRepository)
         {
-            _swingvyContext = context;
+            _loginService = loginService;
+            _memberRepository = memberRepository;
+            _memberDataRepository = memberDataRepository;
+            _worktimeRepository = worktimeRepository;
         }
 
         public IActionResult Index()
@@ -24,17 +32,17 @@ namespace swingvy.Controllers
         [HttpPost]
         public ActionResult Login(string account, string password)
         {
-            var user = _swingvyContext.member.FirstOrDefault(m => m.account == account);
+            var user = _memberRepository.GetUserByAccount(account);
             if (user != null)
             {
                 //驗證hash
-                bool isPasswordCorrect = VerifyPasswordHash(password, user.PasswordHash, user.Salt);
+                bool isPasswordCorrect = _loginService.VerifyPasswordHash(password, user.PasswordHash, user.Salt);
 
                 if (isPasswordCorrect)
                 {
                     // 登入成功
                     var id = user.member_id;
-                    var data = _swingvyContext.memberData.FirstOrDefault(m => m.member_id == id);
+                    var data = _memberDataRepository.GetUserById(id);
                     if (data != null)
                     {
                         Position pos = (Position)data.position;
@@ -47,30 +55,21 @@ namespace swingvy.Controllers
                         Response.Cookies.Append("member_head", data.head.ToString());
                     }
                     // 重定向到登录成功后的页面
-                    
+                    return RedirectToAction("Index", "Home");
                 }
-                return RedirectToAction("Index", "Home");
-            }
-
-            // 登入失败
-            ViewBag.ErrorMessage = "帐号或密码错误";
-            ModelState.Clear();
-            return RedirectToAction("Index");
-        }
-
-        // 验证密码哈希值的方法
-        private bool VerifyPasswordHash(string password, byte[] storedHash, byte[] storedSalt)
-        {
-            using (var hmac = new HMACSHA512(storedSalt))
-            {
-                var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-                for (int i = 0; i < computedHash.Length; i++)
-                {
-                    if (computedHash[i] != storedHash[i])
-                        return false;
+                else {
+                    // 登入失败
+                    ViewBag.ErrorMessage = "帐号或密码错误";
+                    ModelState.Clear();
+                    return RedirectToAction("Index");
                 }
             }
-            return true;
+            else {
+                // 登入失败
+                ViewBag.ErrorMessage = "沒有帐号";
+                ModelState.Clear();
+                return RedirectToAction("Index");
+            }
         }
     }
 }

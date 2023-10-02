@@ -1,10 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using swingvy.Enums;
+﻿using swingvy.Enums;
 using swingvy.Models;
 using swingvy.Repositories;
-using System;
-using System.Diagnostics.Metrics;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -19,7 +15,7 @@ public class RegisterService
         _calendarRepository = calendarRepository;
     }
 
-    public bool RegisterUser(int type, int position, string account, string password)
+    public bool RegisterUser(string account, string password)
     {
         try
         {

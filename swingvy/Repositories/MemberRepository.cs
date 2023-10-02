@@ -13,11 +13,11 @@ namespace swingvy.Repositories
             _context = context;
         }
 
-        public member GetUserByAccount(string account)
+        public member? GetUserByAccount(string account)
         {
             return _context.member.FirstOrDefault(m => m.account == account);
         }
-        public member GetUserByAccountPassword(string account,string password)
+        public member? GetUserByAccountPassword(string account,string password)
         {
             return _context.member.FirstOrDefault(m => m.account == account && m.password == password);
         }

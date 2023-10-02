@@ -38,7 +38,7 @@ namespace swingvy.Controllers
                 return View("Index");
             }
             // 使用Service和Repository來處理業務邏輯和數據存取
-            _registerService.RegisterUser(type, position, account, password);
+            _registerService.RegisterUser(account, password);
 
             //判斷主管員工，並自動登入
             var user = _memberRepository.GetUserByAccountPassword(account, password);
