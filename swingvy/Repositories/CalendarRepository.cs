@@ -10,10 +10,10 @@ namespace swingvy.Repositories
         {
             _context = context;
         }
-        public void AddCalendar(calendar calendar)
+        public async Task AddCalendar(calendar calendar)
         {
             _context.calendar.Add(calendar);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }
