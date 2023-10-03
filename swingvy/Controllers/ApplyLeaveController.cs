@@ -8,19 +8,17 @@ namespace swingvy.Controllers
 {
     public class ApplyLeaveController : Controller
     {
-        private readonly swingvyContext _swingvyContext;
         //private readonly LoginService _loginService;
         private readonly LeaveOrderRepository _leaveOrderRepository;
-        public ApplyLeaveController(swingvyContext context, LeaveOrderRepository leaveOrderRepository)
+        public ApplyLeaveController(LeaveOrderRepository leaveOrderRepository)
         {
-            _swingvyContext = context;
             _leaveOrderRepository = leaveOrderRepository;
         }
         public IActionResult Index()
         {
             string? member_id = Request.Cookies["member_id"];
             int.TryParse(member_id, out int memberId);
-            var resultList = _leaveOrderRepository.GetLeaveOrderData(memberId);
+            var resultList = _leaveOrderRepository.GetApplyLeaveOrder(memberId);
             ViewBag.apply = resultList;
             return View();
         }
