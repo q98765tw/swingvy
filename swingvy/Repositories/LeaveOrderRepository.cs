@@ -45,9 +45,34 @@ namespace swingvy.Repositories
                         };
             return query.ToList();
         }
+        public LeaveOrderPerson GetLeaveOrderPerson(int leaveOrder_id)
+        {
+            var query = (from L in _context.leaveOrder
+                         join md1 in _context.memberData on L.member_id equals md1.member_id
+                         where L.leaveOrder_id == leaveOrder_id
+                         select new LeaveOrderPerson
+                         {
+                             leaveOrder_id = L.leaveOrder_id,
+                             member_id = L.member_id,
+                             name = md1.name,
+                             type = L.type,
+                             startTime = L.startTime,
+                             endTime = L.endTime,
+                             applyTime = L.applyTime,
+                             reason = L.reason
+                         }).FirstOrDefault();
+            return query;
+        }
+        public leaveOrder? GetLeaveOrderById(int leaveOrder_id)
+        {
+            return _context.leaveOrder.Find(leaveOrder_id);
+        }
         public async Task AddLeaveOrder(leaveOrder leaveOrder)
         {
             _context.leaveOrder.Add(leaveOrder);
+            await _context.SaveChangesAsync();
+        }
+        public async Task SaveChange() {
             await _context.SaveChangesAsync();
         }
     }

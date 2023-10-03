@@ -24,8 +24,9 @@ namespace swingvy.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ApplyLeave(int leaveType, DateTime? applyTime, DateTime? startTime, DateTime? endTime, string reason)
+        public async Task<IActionResult> ApplyLeave(LeaveType leaveType, DateTime? applyTime, DateTime? startTime, DateTime? endTime, string reason)
         {
+            Console.WriteLine(leaveType);
             try
             {
                 string? member_id = Request.Cookies["member_id"];
@@ -35,7 +36,7 @@ namespace swingvy.Controllers
                 var leaveOrder = new leaveOrder
                 {
                     member_id = memberId,
-                    type = (Enums.LeaveType)leaveType,
+                    type = leaveType,
                     startTime = startTime,
                     endTime = endTime,
                     applyTime = applyTime,
