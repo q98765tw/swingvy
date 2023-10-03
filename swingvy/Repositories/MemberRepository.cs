@@ -3,8 +3,13 @@ using System.Diagnostics.Metrics;
 using System.Linq;
 
 namespace swingvy.Repositories 
-{ 
-    public class MemberRepository
+{
+    public interface IMemberRepository
+    {
+        void AddUser(member user);
+        // 其他方法
+    }
+    public class MemberRepository : IMemberRepository
     {
         private readonly swingvyContext _context;
 
@@ -21,7 +26,7 @@ namespace swingvy.Repositories
         {
             return _context.member.FirstOrDefault(m => m.account == account && m.password == password);
         }
-        public void AddUser(member user)
+        public  void AddUser(member user)
         {
             _context.member.Add(user);
             _context.SaveChanges();

@@ -1,5 +1,4 @@
-using System.Diagnostics.Metrics;
-using System.Numerics;
+ï»¿
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
@@ -7,90 +6,70 @@ using Moq;
 using swingvy.Controllers;
 using swingvy.Enums;
 using swingvy.Models;
+using swingvy.Repositories;
+using swingvy.Services;
 using Xunit;
 using static swingvy.Models.swingvyContext;
 
 namespace TestProjectXunit
 {
+    
     public class UnitTestLogin
     {
         [Fact]
-        public void Login_ValidUser_ReturnsRedirectToHome()
+        public void VerifyPasswordHash_CorrectPassword_ReturnsTrue()
         {
-            // ·Ç³Æ¼ÒÀÀªºswingvyContext
-            var mockContext = new Mock<ISwingvyContext>();
+            // Arrange
+            string password = "your_password"; // æ›¿æ¢æˆä½ çš„å¯†ç 
+            byte[] salt = GenerateSalt(); // æ›¿æ¢æˆä½ çš„ç”Ÿæˆç›çš„æ–¹æ³•
+            byte[] hash = GeneratePasswordHash(password, salt); // æ›¿æ¢æˆä½ çš„ç”Ÿæˆå“ˆå¸Œçš„æ–¹æ³•
 
-            // ¼ÒÀÀ¸ê®Æ®w¤¤ªº¥Î¤á
-            var mockUser = new member
-            {
-                member_id=0,
-                account = "testuser",
-                PasswordHash = new byte[64], // ³]©w¦X¾Aªº«¢§Æ­È
-                Salt = new byte[128] // ³]©w¦X¾AªºÆQ­È
-            };
-            var mockMemberData = new memberData
-            {
-                memberData_id=0,
-                member_id = 0,
-                name = "0", // ³]©w¦X¾Aªº«¢§Æ­È
-                email = "0", // ³]©w¦X¾AªºÆQ­È
-                phone="0",
-                type=Department.UIUX,
-                position=Position.Employee,
-                head=0,
-            };
-            // ³]¸m¼ÒÀÀªºmember©MmemberData
-            mockContext.Setup(c => c.member).Returns(new[] { mockUser }.AsQueryable());
-            mockContext.Setup(c => c.memberData).Returns(new[] { mockMemberData }.AsQueryable());
+            var loginService = new LoginService();
 
-            var controller = new LoginController(mockContext.Object);
+            // Act
+            bool result = loginService.VerifyPasswordHash(password, hash, salt);
 
-            // °õ¦æ³Q´ú¸Õªº¤èªk
-            var result = (RedirectToActionResult)controller.Login("testuser", "password123");
-
-            // ÅçÃÒµ²ªG
-            var redirectToActionResult = Assert.IsType<RedirectToActionResult>(result);
-            //Assert.Equal("Index", redirectToActionResult.ActionName);
-            Assert.Equal("Home", redirectToActionResult.ControllerName);
+            // Assert
+            Assert.True(result);
         }
+
         [Fact]
-        public void Login_ValidUser_ReturnsRedirectToIndex()
+        public void VerifyPasswordHash_IncorrectPassword_ReturnsFalse()
         {
-            // ·Ç³Æ¼ÒÀÀªºswingvyContext
-            var mockContext = new Mock<ISwingvyContext>();
+            // Arrange
+            string correctPassword = "correct_password";
+            string incorrectPassword = "incorrect_password";
+            byte[] salt = GenerateSalt();
+            byte[] hash = GeneratePasswordHash(correctPassword, salt);
 
-            // ¼ÒÀÀ¸ê®Æ®w¤¤ªº¥Î¤á
-            var mockUser = new member
+            var loginService = new LoginService();
+
+            // Act
+            bool result = loginService.VerifyPasswordHash(incorrectPassword, hash, salt);
+
+            // Assert
+            Assert.False(result);
+        }
+
+        private byte[] GenerateSalt()
+        {
+            // å®žçŽ°ç”Ÿæˆç›çš„æ–¹æ³•ï¼Œä»¥ä¾›æµ‹è¯•ä½¿ç”¨
+            byte[] salt = new byte[64]; // 64å­—èŠ‚çš„ç›å€¼
+            using (RandomNumberGenerator rng = RandomNumberGenerator.Create())
             {
-                member_id = 0,
-                account = "testuser",
-                PasswordHash = new byte[64], // ³]©w¦X¾Aªº«¢§Æ­È
-                Salt = new byte[128] // ³]©w¦X¾AªºÆQ­È
-            };
-            var mockMemberData = new memberData
+                rng.GetBytes(salt);
+            }
+            return salt;
+        }
+
+        private byte[] GeneratePasswordHash(string password, byte[] salt)
+        {
+            // å®žçŽ°ç”Ÿæˆå“ˆå¸Œçš„æ–¹æ³•ï¼Œä»¥ä¾›æµ‹è¯•ä½¿ç”¨
+            using (var hmac = new HMACSHA512(salt))
             {
-                memberData_id = 0,
-                member_id = 0,
-                name = "0", // ³]©w¦X¾Aªº«¢§Æ­È
-                email = "0", // ³]©w¦X¾AªºÆQ­È
-                phone = "0",
-                type = Department.UIUX,
-                position = Position.Employee,
-                head = 0,
-            };
-            // ³]¸m¼ÒÀÀªºmember©MmemberData
-            mockContext.Setup(c => c.member).Returns(new[] { mockUser }.AsQueryable());
-            mockContext.Setup(c => c.memberData).Returns(new[] { mockMemberData }.AsQueryable());
-
-            var controller = new LoginController(mockContext.Object);
-
-            // °õ¦æ³Q´ú¸Õªº¤èªk
-            var result = (RedirectToActionResult)controller.Login("1", "password123");
-
-            // ÅçÃÒµ²ªG
-            var redirectToActionResult = Assert.IsType<RedirectToActionResult>(result);
-            Assert.Equal("Index", redirectToActionResult.ActionName);
-           
+                byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
+                return hmac.ComputeHash(passwordBytes);
+            }
         }
     }
 }
