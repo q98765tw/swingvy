@@ -10,7 +10,7 @@ using Moq; // 如果您使用 Moq 進行模擬
 using swingvy.Enums;
 namespace TestProjectXunit
 {
-    public class UnitTestRegister
+    public class UnitTestRegisterService
     {
         [Fact]
         public void RegisterUser_Success()

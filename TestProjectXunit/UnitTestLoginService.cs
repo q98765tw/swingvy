@@ -14,7 +14,7 @@ using static swingvy.Models.swingvyContext;
 namespace TestProjectXunit
 {
     
-    public class UnitTestLogin
+    public class UnitTestLoginService
     {
         [Fact]
         public void VerifyPasswordHash_CorrectPassword_ReturnsTrue()
