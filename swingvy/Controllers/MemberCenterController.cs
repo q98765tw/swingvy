@@ -2,33 +2,25 @@
 using swingvy.Models;
 using System;
 using swingvy.Enums;
+using swingvy.Services;
 
 namespace swingvy.Controllers
 {
     public class MemberCenterController : Controller
     {
-        private readonly swingvyContext _swingvyContext;
-        public MemberCenterController(swingvyContext context)
+        private readonly MemberCenterService _memberCenterService;
+        public MemberCenterController(MemberCenterService context)
         {
-            _swingvyContext = context;
+            _memberCenterService = context;
         }
 
         public IActionResult Index()
         {
             string userIdStr = Request.Cookies["member_id"];
             int.TryParse(userIdStr, out int userId);
-            var Bag = from a in _swingvyContext.memberData
-                      where a.member_id == userId
-                      select new
-                      {
-                          Name = a.name,
-                          Mail = a.email,
-                          Phone = a.phone,
-                          Depart = a.type,
-                          Position = a.position,
-                          Photo = a.img_url
-                      };
-            ViewBag.Ifo = Bag.FirstOrDefault();
+
+            var Bag = _memberCenterService.GetMemberData(userId);
+            ViewBag.Ifo = Bag;
             return View();
         }
 
@@ -38,47 +30,11 @@ namespace swingvy.Controllers
             string userIdStr = Request.Cookies["member_id"];
             int.TryParse(userIdStr, out int userId);
 
-            int DepaNum;
-            int PtionNum;
-            switch (GetDepa)
-            {
-                case "UI/UX":
-                    DepaNum = (int)Department.UIUX;
-                    break;
-                case "前端":
-                    DepaNum = (int)Department.Frondend;
-                    break;
-                case "後端":
-                    DepaNum = (int)Department.Backend;
-                    break;
-                default:
-                    DepaNum = (int)Department.Unknown;
-                    break;
-            }
+            int DepaNum = _memberCenterService.GetDepartmentNumber(GetDepa);
+            int PtionNum = _memberCenterService.GetPositionNumber(GetPtion);
 
-            switch (GetPtion)
-            {
-                case "員工":
-                    PtionNum = (int)Position.Employee;
-                    break;
-                case "主管":
-                    PtionNum = (int)Position.Manager;
-                    break;
-                default:
-                    PtionNum = (int)Position.Unknown;
-                    break;
-            }
+            _memberCenterService.UpdateMemberInformation(userId,GetName, GetMail, GetPhone, DepaNum, PtionNum);
 
-            var notebook = _swingvyContext.memberData.FirstOrDefault(n => n.member_id == userId);
-            if (notebook != null)
-            {
-                notebook.name = GetName;
-                notebook.email = GetMail;
-                notebook.phone = GetPhone;
-                notebook.type = (Enums.Department)DepaNum;
-                notebook.position = (Enums.Position)PtionNum;
-                _swingvyContext.SaveChanges();
-            };
             return RedirectToAction("Index", "MemberCenter");
         }
 
@@ -92,11 +48,6 @@ namespace swingvy.Controllers
             string userIdStr = Request.Cookies["member_id"];
             int.TryParse(userIdStr, out int userId);
 
-            // 從身份驗證 Cookie 中獲取當前登錄會員的 ID
-            //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            // 從 Cookie 中獲取當前登錄會員的 ID
-            //var userId = Request.Cookies["YourCookieName"];
-
             // 檢查是否有文件被上傳
             if (string.IsNullOrEmpty(cropped_image))
             {
@@ -104,28 +55,25 @@ namespace swingvy.Controllers
                 return RedirectToAction("Index", "MemberCenter");
             }
 
-            // 將 base64 編碼的圖片數據轉換為 byte[]
-            var base64Data = cropped_image.Substring(cropped_image.IndexOf(',') + 1);
-            var imageBytes = Convert.FromBase64String(base64Data);
+            var fileName = $"{userId}HeadPhoto.jpg";
 
-            // 將文件保存到某個路徑
-            var fileName = userId +"HeadPhoto"+".jpg";  // 裁剪後的圖片將被保存為 .jpg 文件
-            var filePath = Path.Combine("wwwroot", "img", fileName);
-            await System.IO.File.WriteAllBytesAsync(filePath, imageBytes);
+            bool isUploadSuccessful = await _memberCenterService.UploadProfilePictureAsync(userId, cropped_image);
 
-            // 更新使用者的頭像路徑
-            var user = _swingvyContext.memberData.FirstOrDefault(m => m.member_id == userId);
-
-            if (user == null)
+            if (!isUploadSuccessful)
             {
-                // 處理 user 為 null 的情況
-                TempData["Message"] = "User not found.";
+                TempData["Message"] = "頭像上傳失敗。";
                 return RedirectToAction("Index", "MemberCenter");
             }
-            user.img_url = "~/img/" + fileName;
 
-            _swingvyContext.SaveChanges();
-            TempData["Message"] = "頭像上傳成功。";
+            bool isProfileUrlUpdated = _memberCenterService.UpdateProfilePictureUrl(userId, fileName);
+
+            if (!isProfileUrlUpdated)
+            {
+                TempData["Message"] = "更新用戶頭像路徑失敗。";
+                return RedirectToAction("Index", "MemberCenter");
+            }
+
+            TempData["Message"] = "頭像上傳成功並更新用戶頭像路徑。";
             return RedirectToAction("Index", "MemberCenter");
         }
 

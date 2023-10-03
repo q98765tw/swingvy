@@ -13,6 +13,7 @@ builder.Services.AddDbContext<swingvyContext>(options => options.UseSqlServer(bu
 builder.Services.AddScoped<CalendarService>();
 builder.Services.AddScoped<EmployeeListService>();
 builder.Services.AddScoped<HomeService>();
+builder.Services.AddScoped<MemberCenterService>();
 builder.Services.AddControllersWithViews();
 //Service
 builder.Services.AddTransient<RegisterService>();
