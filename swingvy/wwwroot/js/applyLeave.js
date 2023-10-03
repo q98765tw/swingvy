@@ -1,4 +1,3 @@
-//
 $('#postData').on('click', () => {
     var leaveType = $("#leaveType").val();
     var startTime = $("#startTime").val();
@@ -12,9 +11,27 @@ $('#postData').on('click', () => {
         var reason = $("#reason").val();
         var currentDate = new Date().toLocaleDateString();
         console.log(typeof (currentDate))
+        switch (leaveType) {
+            case 'Special': {
+                leaveType = 0;
+                break;
+            }
+            case 'Personal': {
+                leaveType = 1;
+                break;
+            }
+            case 'Sick': {
+                leaveType = 2;
+                break;
+            }
+            case 'Menstrual': {
+                leaveType = 3;
+                break;
+            }
+        }
         console.log(leaveType, startTime, endTime, reason, currentDate)
         var data = {
-            leaveType: parseInt(leaveType),
+            leaveType: leaveType,
             startTime: startTime,
             endTime: endTime,
             reason: reason,

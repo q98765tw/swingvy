@@ -1,42 +1,32 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using swingvy.Models;
-using System.Reflection;
 using swingvy.Enums;
+using swingvy.Repositories;
+using swingvy.Services;
+
 namespace swingvy.Controllers
 {
     public class ApplyLeaveController : Controller
     {
-        private readonly swingvyContext _swingvyContext;
-        public ApplyLeaveController(swingvyContext context)
+        //private readonly LoginService _loginService;
+        private readonly LeaveOrderRepository _leaveOrderRepository;
+        public ApplyLeaveController(LeaveOrderRepository leaveOrderRepository)
         {
-            _swingvyContext = context;
+            _leaveOrderRepository = leaveOrderRepository;
         }
         public IActionResult Index()
         {
             string? member_id = Request.Cookies["member_id"];
             int.TryParse(member_id, out int memberId);
-            var query = from leaveOrder in _swingvyContext.leaveOrder
-                        join md1 in _swingvyContext.memberData on leaveOrder.member_id equals md1.member_id
-                        join md2 in _swingvyContext.memberData on md1.head equals md2.member_id
-                        where leaveOrder.member_id == memberId
-                        orderby leaveOrder.startTime ascending
-                        select new
-                        {
-                            type =leaveOrder.type,
-                            startTime = leaveOrder.startTime,
-                            endTime =leaveOrder.endTime,
-                            state = leaveOrder.state,
-                            head_name = md2.name
-                        };
-            var resultList = query.ToList();
+            var resultList = _leaveOrderRepository.GetApplyLeaveOrder(memberId);
             ViewBag.apply = resultList;
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> ApplyLeave(int leaveType, DateTime? applyTime, DateTime? startTime, DateTime? endTime, string reason)
+        public async Task<IActionResult> ApplyLeave(LeaveType leaveType, DateTime? applyTime, DateTime? startTime, DateTime? endTime, string reason)
         {
+            Console.WriteLine(leaveType);
             try
             {
                 string? member_id = Request.Cookies["member_id"];
@@ -46,7 +36,7 @@ namespace swingvy.Controllers
                 var leaveOrder = new leaveOrder
                 {
                     member_id = memberId,
-                    type = (Enums.LeaveType)leaveType,
+                    type = leaveType,
                     startTime = startTime,
                     endTime = endTime,
                     applyTime = applyTime,
@@ -54,13 +44,12 @@ namespace swingvy.Controllers
                     state = LeaveState.Not,
                     head = memberHead,
                 };
-                _swingvyContext.leaveOrder.Add(leaveOrder);
-                await _swingvyContext.SaveChangesAsync();
+                await _leaveOrderRepository.AddLeaveOrder(leaveOrder);
                 return Ok();
             }
-            catch (Exception ex)
+            catch 
             {
-                return StatusCode(500, $"新增時發生錯誤: {ex.Message}");
+                return StatusCode(500);
             }
         }
 

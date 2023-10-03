@@ -48,7 +48,6 @@ public class RegisterService
         }
         catch
         {
-
             return false;
         }
        

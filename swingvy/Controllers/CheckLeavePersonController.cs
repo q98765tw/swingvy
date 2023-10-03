@@ -2,33 +2,24 @@
 using Microsoft.EntityFrameworkCore;
 using swingvy.Enums;
 using swingvy.Models;
+using swingvy.Repositories;
+using swingvy.Services;
 
 namespace swingvy.Controllers
 {
     public class CheckLeavePersonController : Controller
     {
-        private readonly swingvyContext _swingvyContext;
-        public CheckLeavePersonController(swingvyContext context)
+        private readonly LeaveOrderRepository _leaveOrderRepository;
+        private readonly CalendarRepository _calendarRepository;
+        public CheckLeavePersonController(LeaveOrderRepository leaveOrderRepository, CalendarRepository calendarRepository)
         {
-            _swingvyContext = context;
+            _leaveOrderRepository = leaveOrderRepository;
+            _calendarRepository = calendarRepository;
         }
-        public IActionResult Index(int? leaveOrder_id)
+        public IActionResult Index(int leaveOrder_id)
         {
-            var query = (from L in _swingvyContext.leaveOrder
-                         join md1 in _swingvyContext.memberData on L.member_id equals md1.member_id
-                         where L.leaveOrder_id == leaveOrder_id
-                         select new
-                         {
-                             leaveOrder_id = L.leaveOrder_id,
-                             member_id = L.member_id,
-                             name = md1.name,
-                             type = L.type,
-                             startTime = L.startTime,
-                             endTime = L.endTime,
-                             applyTime = L.applyTime,
-                             reason = L.reason
-                         }).FirstOrDefault();
-            ViewBag.person=query;
+            var result = _leaveOrderRepository.GetLeaveOrderPerson(leaveOrder_id);
+            ViewBag.person=result;
             return View();
         }
         [HttpPost]
@@ -36,7 +27,7 @@ namespace swingvy.Controllers
         {
             try
             {
-                var approve = _swingvyContext.leaveOrder.Find(leaveOrder_id);
+                var approve = _leaveOrderRepository.GetLeaveOrderById(leaveOrder_id);
                 if (approve != null) { 
                     approve.state = LeaveState.Approve;
                 }
@@ -47,8 +38,7 @@ namespace swingvy.Controllers
                     startTime = startTime,
                     endTime = endTime,
                 };
-                _swingvyContext.calendar.Add(calendar);
-                await _swingvyContext.SaveChangesAsync();
+                await _calendarRepository.AddCalendar(calendar);
                 return Ok();
             }
             catch (Exception ex)
@@ -60,12 +50,12 @@ namespace swingvy.Controllers
         {
             try
             {
-                var reject = _swingvyContext.leaveOrder.Find(leaveOrder_id);
+                var reject = _leaveOrderRepository.GetLeaveOrderById(leaveOrder_id);
                 if (reject != null)
                 {
                     reject.state = LeaveState.Reject;
-                }              
-                await _swingvyContext.SaveChangesAsync();
+                }
+                await _leaveOrderRepository.SaveChange();
                 return Ok();
             }
             catch (Exception ex)

@@ -22,6 +22,7 @@ builder.Services.AddTransient<MemberRepository>();
 builder.Services.AddTransient<MemberDataRepository>();
 builder.Services.AddTransient<CalendarRepository>();
 builder.Services.AddTransient<WorktimeRepository>();
+builder.Services.AddTransient<LeaveOrderRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
