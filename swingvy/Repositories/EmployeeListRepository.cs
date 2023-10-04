@@ -1,12 +1,15 @@
-﻿using swingvy.Models;
+﻿using swingvy.Enums;
+using swingvy.Models;
+using System.Reflection;
 
-namespace swingvy.Services
+
+namespace swingvy.Repositories
 {
-    public class EmployeeListService
+    public class EmployeeListRepository
     {
         private readonly swingvyContext _swingvyContext;
 
-        public EmployeeListService(swingvyContext swingvyContext)
+        public EmployeeListRepository(swingvyContext swingvyContext)
         {
             _swingvyContext = swingvyContext;
         }

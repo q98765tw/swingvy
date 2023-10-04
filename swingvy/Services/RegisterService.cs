@@ -6,12 +6,12 @@ using System.Text;
 
 public class RegisterService
 {
-    //private readonly IMemberRepository _memberRepository;
-    //private readonly ICalendarRepository _calendarRepository;
-    private readonly MemberRepository _memberRepository;
-    private readonly CalendarRepository _calendarRepository;
+    private readonly IMemberRepository _memberRepository;
+    private readonly ICalendarRepository _calendarRepository;
+    //private readonly MemberRepository _memberRepository;
+    //private readonly CalendarRepository _calendarRepository;
 
-    public RegisterService(MemberRepository memberRepository, CalendarRepository calendarRepository)
+    public RegisterService(IMemberRepository memberRepository, ICalendarRepository calendarRepository)
     {
         _memberRepository = memberRepository;
         _calendarRepository = calendarRepository;

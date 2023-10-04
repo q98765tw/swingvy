@@ -2,15 +2,15 @@
 using swingvy.Models;
 using System.Diagnostics;
 using swingvy.Enums;
-using swingvy.Services;
+using swingvy.Repositories;
 
 namespace swingvy.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly HomeService _homeService;
-        public HomeController(HomeService context)
+        private readonly HomeRepository _homeService;
+        public HomeController(HomeRepository context)
         {
             _homeService = context;
         }

@@ -2,16 +2,19 @@
 using swingvy.Models;
 using System;
 using swingvy.Enums;
+using swingvy.Repositories;
 using swingvy.Services;
 
 namespace swingvy.Controllers
 {
     public class MemberCenterController : Controller
     {
+        private readonly MemberCenterRepository _memberCenterRepository;
         private readonly MemberCenterService _memberCenterService;
-        public MemberCenterController(MemberCenterService context)
+        public MemberCenterController(MemberCenterRepository context, MemberCenterService context_2)
         {
-            _memberCenterService = context;
+            _memberCenterRepository = context;
+            _memberCenterService = context_2;
         }
 
         public IActionResult Index()
@@ -19,7 +22,8 @@ namespace swingvy.Controllers
             string userIdStr = Request.Cookies["member_id"];
             int.TryParse(userIdStr, out int userId);
 
-            var Bag = _memberCenterService.GetMemberData(userId);
+            //抓會員資料傳回ViewBag中
+            var Bag = _memberCenterRepository.GetMemberData(userId);
             ViewBag.Ifo = Bag;
             return View();
         }
@@ -29,11 +33,12 @@ namespace swingvy.Controllers
         {
             string userIdStr = Request.Cookies["member_id"];
             int.TryParse(userIdStr, out int userId);
-
+            //得到職位與部門的資料庫代碼
             int DepaNum = _memberCenterService.GetDepartmentNumber(GetDepa);
             int PtionNum = _memberCenterService.GetPositionNumber(GetPtion);
 
-            _memberCenterService.UpdateMemberInformation(userId,GetName, GetMail, GetPhone, DepaNum, PtionNum);
+            //資料寫回到會員的資料庫
+            _memberCenterRepository.UpdateMemberInformation(userId,GetName, GetMail, GetPhone, DepaNum, PtionNum);
 
             return RedirectToAction("Index", "MemberCenter");
         }
@@ -65,7 +70,7 @@ namespace swingvy.Controllers
                 return RedirectToAction("Index", "MemberCenter");
             }
 
-            bool isProfileUrlUpdated = _memberCenterService.UpdateProfilePictureUrl(userId, fileName);
+            bool isProfileUrlUpdated = _memberCenterRepository.UpdateProfilePictureUrl(userId, fileName);
 
             if (!isProfileUrlUpdated)
             {

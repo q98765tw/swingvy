@@ -12,10 +12,11 @@ builder.Services.AddDbContext<swingvyContext>(options => options.UseSqlServer(bu
 // Add services to the container.
 
 // Add CalendarService registration ¦æ¨Æ¾ä
-builder.Services.AddScoped<CalendarService>();
-builder.Services.AddScoped<EmployeeListService>();
-builder.Services.AddScoped<HomeService>();
+builder.Services.AddScoped<CalendarPageRepository>();
+builder.Services.AddScoped<EmployeeListRepository>();
+builder.Services.AddScoped<HomeRepository>();
 builder.Services.AddScoped<MemberCenterService>();
+builder.Services.AddScoped<MemberCenterRepository>();
 builder.Services.AddControllersWithViews();
 //Service
 builder.Services.AddTransient<RegisterService>();

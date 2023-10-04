@@ -5,13 +5,13 @@ using System.Security.Cryptography;
 using System.Text;
 
 
-namespace swingvy.Services
+namespace swingvy.Repositories
 {
-    public class HomeService
+    public class HomeRepository
     {
         private readonly swingvyContext _swingvyContext;
 
-        public HomeService(swingvyContext swingvyContext)
+        public HomeRepository(swingvyContext swingvyContext)
         {
             _swingvyContext = swingvyContext;
         }
@@ -58,7 +58,7 @@ namespace swingvy.Services
                 .ToList();
         }
 
-        public List<RecentActivitiesViewModel> GetRecentActivities(DateTime today,DateTime sevenDaysLater)
+        public List<RecentActivitiesViewModel> GetRecentActivities(DateTime today, DateTime sevenDaysLater)
         {
             return (from w in _swingvyContext.calendar
                     join m in _swingvyContext.memberData
@@ -80,7 +80,7 @@ namespace swingvy.Services
             _swingvyContext.SaveChanges();
         }
 
-        public void ClockOut(int userId) 
+        public void ClockOut(int userId)
         {
             var workTimeRecord = _swingvyContext.worktime.FirstOrDefault(w => w.member_id == userId);
             workTimeRecord.endTime = DateTime.Now;

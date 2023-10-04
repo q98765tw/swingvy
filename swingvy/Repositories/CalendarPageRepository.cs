@@ -1,12 +1,12 @@
 ﻿using swingvy.Models;
 
-namespace swingvy.Services
+namespace swingvy.Repositories
 {
-    public class CalendarService
+    public class CalendarPageRepository
     {
         private readonly swingvyContext _swingvyContext;
 
-        public CalendarService(swingvyContext swingvyContext)
+        public CalendarPageRepository(swingvyContext swingvyContext)
         {
             _swingvyContext = swingvyContext;
         }

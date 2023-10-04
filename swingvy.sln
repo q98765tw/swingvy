@@ -5,7 +5,7 @@ VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "swingvy", "swingvy\swingvy.csproj", "{3D8B8C79-66C4-4B91-AB0F-1BCCC1E54B0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProjectXunit", "TestProjectXunit\TestProjectXunit.csproj", "{C2BD28A7-C529-4C9B-BA11-A5092000535E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProjectXunit", "TestProjectXunit\TestProjectXunit.csproj", "{C2BD28A7-C529-4C9B-BA11-A5092000535E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
