@@ -28,7 +28,7 @@ namespace swingvy.Controllers
         }
 
         [HttpPost]
-        public ActionResult Register(int type,int position, string account, string password)
+        public async Task<ActionResult> Register(int type,int position, string account, string password)
         {
             var existingUser = _memberRepository.GetUserByAccount(account);
             if (existingUser != null)
@@ -38,7 +38,7 @@ namespace swingvy.Controllers
                 return View("Index");
             }
             // 使用Service和Repository來處理業務邏輯和數據存取
-            _registerService.RegisterUser(account, password);
+            await _registerService.RegisterUser(account, password);
 
             //判斷主管員工，並自動登入
             var user = _memberRepository.GetUserByAccountPassword(account, password);
@@ -88,7 +88,7 @@ namespace swingvy.Controllers
                 };
                 
                 _worktimeRepository.AddWorkTime(workTime);
-                _worktimeRepository.save();
+                await _worktimeRepository.Save();
                 Response.Cookies.Append("member_id", user.member_id.ToString());
                 Response.Cookies.Append("member_type", type.ToString());
                 Response.Cookies.Append("member_position", position.ToString());

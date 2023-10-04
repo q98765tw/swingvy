@@ -18,8 +18,8 @@ namespace swingvy.Repositories
             _context.worktime.Add(worktime);
             
         }
-        public void save() {
-            _context.SaveChanges();
+        public async Task Save() {
+            await _context.SaveChangesAsync();
         }
     }
 }
