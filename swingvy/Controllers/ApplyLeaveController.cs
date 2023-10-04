@@ -44,7 +44,8 @@ namespace swingvy.Controllers
                     state = LeaveState.Not,
                     head = memberHead,
                 };
-                await _leaveOrderRepository.AddLeaveOrder(leaveOrder);
+                _leaveOrderRepository.AddLeaveOrder(leaveOrder);
+                await _leaveOrderRepository.Save();
                 return Ok();
             }
             catch 

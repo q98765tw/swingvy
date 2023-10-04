@@ -38,7 +38,8 @@ namespace swingvy.Controllers
                     startTime = startTime,
                     endTime = endTime,
                 };
-                await _calendarRepository.AddCalendar(calendar);
+                _calendarRepository.AddCalendar(calendar);
+                await _calendarRepository.Save();
                 return Ok();
             }
             catch (Exception ex)
@@ -55,7 +56,7 @@ namespace swingvy.Controllers
                 {
                     reject.state = LeaveState.Reject;
                 }
-                await _leaveOrderRepository.SaveChange();
+                await _leaveOrderRepository.Save();
                 return Ok();
             }
             catch (Exception ex)

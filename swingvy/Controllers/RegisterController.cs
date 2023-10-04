@@ -62,6 +62,7 @@ namespace swingvy.Controllers
                         img_url = "~/img/avatar24-01.png"
                     };
                     _memberDataRepository.AddMemberData(newUserData);
+                    _memberDataRepository.save();
                     Response.Cookies.Append("member_head", user.member_id.ToString());
                 }
                 else {
@@ -78,6 +79,7 @@ namespace swingvy.Controllers
                         img_url = "~/img/avatar24-01.png"
                     };
                     _memberDataRepository.AddMemberData(newUserData);
+                    _memberDataRepository.save();
                     Response.Cookies.Append("member_head", head.head.ToString());
                 }
                 var workTime = new worktime
@@ -86,6 +88,7 @@ namespace swingvy.Controllers
                 };
                 
                 _worktimeRepository.AddWorkTime(workTime);
+                _worktimeRepository.save();
                 Response.Cookies.Append("member_id", user.member_id.ToString());
                 Response.Cookies.Append("member_type", type.ToString());
                 Response.Cookies.Append("member_position", position.ToString());

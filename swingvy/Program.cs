@@ -6,8 +6,8 @@ using swingvy.Repositories;
 using swingvy.Services;
 using Microsoft.EntityFrameworkCore.InMemory;
 var builder = WebApplication.CreateBuilder(args);
-//builder.Services.AddDbContext<swingvyContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("TestBananaContext")));
-builder.Services.AddDbContext<swingvyContext>(options => options.UseInMemoryDatabase("InMemoryDb"));
+builder.Services.AddDbContext<swingvyContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("TestBananaContext")));
+//builder.Services.AddDbContext<swingvyContext>(options => options.UseInMemoryDatabase("InMemoryDb"));
 
 // Add services to the container.
 

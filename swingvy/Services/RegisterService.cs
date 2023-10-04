@@ -6,12 +6,12 @@ using System.Text;
 
 public class RegisterService
 {
-    private readonly IMemberRepository _memberRepository;
-    private readonly ICalendarRepository _calendarRepository;
-    //private readonly MemberRepository _memberRepository;
-    //private readonly CalendarRepository _calendarRepository;
+    //private readonly IMemberRepository _memberRepository;
+    //private readonly ICalendarRepository _calendarRepository;
+    private readonly MemberRepository _memberRepository;
+    private readonly CalendarRepository _calendarRepository;
 
-    public RegisterService(IMemberRepository memberRepository, ICalendarRepository calendarRepository)
+    public RegisterService(MemberRepository memberRepository, CalendarRepository calendarRepository)
     {
         _memberRepository = memberRepository;
         _calendarRepository = calendarRepository;
@@ -36,7 +36,7 @@ public class RegisterService
             };
 
             _memberRepository.AddUser(newUser);
-
+            _memberRepository.Save();
             // 其他相關業務邏輯，例如創建行事曆等
             var CalNewMember = new calendar
             {
@@ -46,6 +46,7 @@ public class RegisterService
                 name = "到職"
             };
             _calendarRepository.AddCalendar(CalNewMember);
+            _calendarRepository.Save();
             return true;
         }
         catch

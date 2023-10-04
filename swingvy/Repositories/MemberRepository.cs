@@ -8,6 +8,7 @@ namespace swingvy.Repositories
     {
         void AddUser(member user);
         // 其他方法
+        void Save();
     }
     public class MemberRepository : IMemberRepository
     {
@@ -29,9 +30,11 @@ namespace swingvy.Repositories
         public  void AddUser(member user)
         {
             _context.member.Add(user);
+        }
+        public void Save() 
+        {
             _context.SaveChanges();
         }
-
     // 其他與數據存取相關的方法
     }
 }
