@@ -3,6 +3,12 @@ using System.Diagnostics.Metrics;
 using System.Linq;
 namespace swingvy.Repositories
 {
+    public interface ICalendarRepository
+    {
+        void AddCalendar(calendar calendar);
+        // 其他方法
+        Task Save();
+    }
     public class CalendarRepository
     {
         private readonly swingvyContext _context;
@@ -10,9 +16,12 @@ namespace swingvy.Repositories
         {
             _context = context;
         }
-        public async Task AddCalendar(calendar calendar)
+        public void AddCalendar(calendar calendar)
         {
             _context.calendar.Add(calendar);
+        }
+        public async Task Save() 
+        {
             await _context.SaveChangesAsync();
         }
     }

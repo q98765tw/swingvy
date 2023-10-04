@@ -2,17 +2,19 @@
 using swingvy.Models;
 using System.Diagnostics;
 using swingvy.Enums;
+using swingvy.Services;
 
 namespace swingvy.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly swingvyContext _swingvyContext;
-        public HomeController(swingvyContext context)
+        private readonly HomeService _homeService;
+        public HomeController(HomeService context)
         {
-            _swingvyContext = context;
+            _homeService = context;
         }
+
         //推送測試
         public IActionResult Index()
         {
@@ -21,49 +23,23 @@ namespace swingvy.Controllers
 
             string userIdStr = Request.Cookies["member_id"];
             int.TryParse(userIdStr, out int userId);
-            var Name = from a in _swingvyContext.memberData
-                       where a.member_id == userId
-                       select new
-                       {
-                           Name = a.name,
-                       };
-            ViewBag.UserName = Name.ToList();
 
-            var workTimeRecord = _swingvyContext.worktime.
-                FirstOrDefault(wt => wt.member_id == userId && wt.startTime >= today );
+            //取得使用者名稱顯示在首頁上頭
+            var Name = _homeService.GetUserName(userId);
+            ViewBag.UserName = Name;
 
-            if(workTimeRecord == null)
+            var workTimeRecord = _homeService.GetWorkTimeRecord(userId,today); //得到今天的打卡時間資料
+            if(workTimeRecord == null)//如果為空代表已經到新的一天了，清除打卡欄位的資料
             {
-                var workTimeRecord_2 = _swingvyContext.worktime.FirstOrDefault(n => n.member_id == userId);
-                workTimeRecord_2.endTime = null;
-                workTimeRecord_2.startTime = null;
-                workTimeRecord_2.state = (int)WorkState.No;
-                _swingvyContext.SaveChanges();
+                _homeService.UpdateWorkTimeRecordForNoState(userId);
             }
-
-            var workTimeRecord_3 = from w in _swingvyContext.worktime
-                                   where w.member_id == userId
-                                   select new
-                                   {
-                                       Start = w.startTime.ToString(),
-                                       State = ((WorkState)w.state).ToString(),
-                                   };
-
-            ViewBag.worktime = workTimeRecord_3.ToList();
+            var workTimeRecord_3 = _homeService.GetWorkTimeRecordsViewModel(userId);//整理前端需要用到的資料傳回
+            //如果說今天以內有資料 就會顯現今天的打卡資料 如果沒有今天的資料會將資料庫清除
+            ViewBag.worktime = workTimeRecord_3;
            
-
-            var Cal = from w in _swingvyContext.calendar
-                      join m in _swingvyContext.memberData
-                      on w.member_id equals m.member_id
-                      where w.startTime >= today && w.startTime <= sevenDaysLater　
-                      select new
-                      {
-                          MemberName = m.name,
-                          mem_Act = w.name,
-                          Time = w.startTime
-                      };
-
-            ViewBag.Rec_Event = Cal.ToList();
+            //得到最近活動的資料 今日起7天內
+            var RecentActivities = _homeService.GetRecentActivities(today, sevenDaysLater);
+            ViewBag.Rec_Event = RecentActivities;
             return View();
 
         }
@@ -72,10 +48,8 @@ namespace swingvy.Controllers
         {
             string userIdStr = Request.Cookies["member_id"];
             int.TryParse(userIdStr, out int userId);
-            var workTimeRecord = _swingvyContext.worktime.FirstOrDefault(w => w.member_id == userId);
-            workTimeRecord.startTime = DateTime.Now;
-            workTimeRecord.state = (int)WorkState.Ing;
-            _swingvyContext.SaveChanges();
+            //得到userId後 傳入打卡上班的函式 完成打卡動作
+            _homeService.ClockInToWork(userId);
 
             return RedirectToAction("Index","Home");
         }
@@ -84,18 +58,18 @@ namespace swingvy.Controllers
         {
             string userIdStr = Request.Cookies["member_id"];
             int.TryParse(userIdStr, out int userId);
-            var workTimeRecord = _swingvyContext.worktime.FirstOrDefault(w => w.member_id == userId);
-            workTimeRecord.endTime = DateTime.Now;
-            workTimeRecord.state = (int)WorkState.Yes;
-            _swingvyContext.SaveChanges();
+            //得到userId後 傳入打卡下班的函式 完成打卡動作
+            _homeService.ClockOut(userId);
 
             return RedirectToAction("Index", "Home");
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+
+
+        //[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        //public IActionResult Error()
+        //{
+        //    return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        //}
     }
 }

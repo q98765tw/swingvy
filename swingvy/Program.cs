@@ -4,10 +4,17 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using swingvy.Repositories;
 using swingvy.Services;
-
+using Microsoft.EntityFrameworkCore.InMemory;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<swingvyContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("TestBananaContext")));
+//builder.Services.AddDbContext<swingvyContext>(options => options.UseInMemoryDatabase("InMemoryDb"));
+
 // Add services to the container.
+
+// Add CalendarService registration ¦æ¨Æ¾ä
+builder.Services.AddScoped<CalendarService>();
+builder.Services.AddScoped<EmployeeListService>();
+builder.Services.AddScoped<HomeService>();
 builder.Services.AddControllersWithViews();
 //Service
 builder.Services.AddTransient<RegisterService>();
