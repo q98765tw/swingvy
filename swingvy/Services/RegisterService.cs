@@ -17,7 +17,7 @@ public class RegisterService
         _calendarRepository = calendarRepository;
     }
 
-    public bool RegisterUser(string account, string password)
+    public async Task<bool> RegisterUser(string account, string password)
     {
         try
         {
@@ -46,7 +46,7 @@ public class RegisterService
                 name = "到職"
             };
             _calendarRepository.AddCalendar(CalNewMember);
-            _calendarRepository.Save();
+            await _calendarRepository.Save();
             return true;
         }
         catch
