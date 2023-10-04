@@ -67,12 +67,11 @@ namespace swingvy.Repositories
         {
             return _context.leaveOrder.Find(leaveOrder_id);
         }
-        public async Task AddLeaveOrder(leaveOrder leaveOrder)
+        public void AddLeaveOrder(leaveOrder leaveOrder)
         {
             _context.leaveOrder.Add(leaveOrder);
-            await _context.SaveChangesAsync();
         }
-        public async Task SaveChange() {
+        public async Task Save() {
             await _context.SaveChangesAsync();
         }
     }

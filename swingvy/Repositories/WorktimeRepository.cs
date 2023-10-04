@@ -16,6 +16,9 @@ namespace swingvy.Repositories
         public void AddWorkTime(worktime worktime)
         {
             _context.worktime.Add(worktime);
+            
+        }
+        public void save() {
             _context.SaveChanges();
         }
     }
