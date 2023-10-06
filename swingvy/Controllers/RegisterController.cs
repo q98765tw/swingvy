@@ -46,57 +46,42 @@ namespace swingvy.Controllers
                 ViewBag.ErrorMessage = "資料庫存取失敗";
                 return View("Index"); 
             }
-            else 
+            if (position == Position.Manager)
             {
-                if (position == Position.Manager)
-                {
-                    var newUserData = new memberData
-                    {
-                        member_id = user.member_id,
-                        name = "請填寫姓名",
-                        email = "請填寫信箱",
-                        phone = "請填寫電話",
-                        type = type,
-                        position = Position.Manager,
-                        head = user.member_id,
-                        img_url = "~/img/avatar24-01.png"
-                    };
-                    _memberDataRepository.AddMemberData(newUserData);
-                    _memberDataRepository.save();
-                    Response.Cookies.Append("member_head", user.member_id.ToString());
-                }
-                else {
-                    var head = _memberDataRepository.FindHead(type,position);
-                    var newUserData = new memberData
-                    {
-                        member_id = user.member_id,
-                        name = "請填寫姓名",
-                        email = "請填寫信箱",
-                        phone = "請填寫電話",
-                        type = type,
-                        position = Position.Employee,
-                        head = head!.head,
-                        img_url = "~/img/avatar24-01.png"
-                    };
-                    _memberDataRepository.AddMemberData(newUserData);
-                    _memberDataRepository.save();
-                    Response.Cookies.Append("member_head", head.head.ToString());
-                }
-                var workTime = new worktime
-                {
-                    member_id = user.member_id,
-                };
-                
-                _worktimeRepository.AddWorkTime(workTime);
-                await _worktimeRepository.Save();
-                Response.Cookies.Append("member_id", user.member_id.ToString());
-                Response.Cookies.Append("member_type", type.ToString());
-                Response.Cookies.Append("member_position", position.ToString());
-               
+               await NewMemberData(user, type, position, user.member_id);
             }
-           
+            else {
+               var head = _memberDataRepository.FindHead(type,position);
+               await NewMemberData(user,type, position, head!.head);
+            } 
+            
             // 重定向到注册成功后的页面
             return RedirectToAction("Index", "MemberCenter");
+        }
+        public async Task NewMemberData(member user,Department type,Position position, int head) 
+        {
+            var newUserData = new memberData
+            {
+                member_id = user.member_id,
+                name = "請填寫姓名",
+                email = "請填寫信箱",
+                phone = "請填寫電話",
+                type = type,
+                position = position,
+                head = head,
+                img_url = "~/img/avatar24-01.png"
+            };
+            var workTime = new worktime
+            {
+                member_id = user.member_id,
+            };
+            _memberDataRepository.AddMemberData(newUserData);
+            _worktimeRepository.AddWorkTime(workTime);
+            await _worktimeRepository.Save();
+            Response.Cookies.Append("member_id", user.member_id.ToString());
+            Response.Cookies.Append("member_type", ((int)type).ToString());
+            Response.Cookies.Append("member_position", ((int)position).ToString());
+            Response.Cookies.Append("member_head", head.ToString());
         }
     }
 }
