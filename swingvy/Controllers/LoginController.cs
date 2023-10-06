@@ -41,13 +41,11 @@ namespace swingvy.Controllers
                     var data = _memberDataRepository.GetUserById(id);
                     if (data != null)
                     {
-                        Position pos = (Position)data.position;
-                        Department typ = (Department)data.type;
-                        int positionValue = (int)pos;
-                        int typeValue = (int)typ;
+                        Position pos = data.position;
+                        Department typ = data.type;
                         Response.Cookies.Append("member_id", id.ToString());
-                        Response.Cookies.Append("member_type", typeValue.ToString());
-                        Response.Cookies.Append("member_position", positionValue.ToString());
+                        Response.Cookies.Append("member_type", ((int)typ).ToString());
+                        Response.Cookies.Append("member_position", ((int)pos).ToString());
                         Response.Cookies.Append("member_head", data.head.ToString());
                     }
                     // 重定向到登录成功后的页面
