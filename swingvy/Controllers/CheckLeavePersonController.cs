@@ -27,10 +27,7 @@ namespace swingvy.Controllers
         {
             try
             {
-                var approve = _leaveOrderRepository.GetLeaveOrderById(leaveOrder_id);
-                if (approve != null) { 
-                    approve.state = LeaveState.Approve;
-                }
+                ChangeState(leaveOrder_id, LeaveState.Approve);
                 var calendar = new calendar
                 {
                     member_id = member_id,
@@ -51,11 +48,7 @@ namespace swingvy.Controllers
         {
             try
             {
-                var reject = _leaveOrderRepository.GetLeaveOrderById(leaveOrder_id);
-                if (reject != null)
-                {
-                    reject.state = LeaveState.Reject;
-                }
+                ChangeState(leaveOrder_id,LeaveState.Reject);
                 await _leaveOrderRepository.Save();
                 return Ok();
             }
@@ -64,6 +57,13 @@ namespace swingvy.Controllers
                 return StatusCode(500, $"新增時發生錯誤: {ex.Message}");
             }
         }
-
+        public void ChangeState(int leaveOrder_id, LeaveState state) 
+        {
+            var LeaveOrder = _leaveOrderRepository.GetLeaveOrderById(leaveOrder_id);
+            if (LeaveOrder != null)
+            {
+                LeaveOrder.state = state;
+            }
+        }
     }
 }
