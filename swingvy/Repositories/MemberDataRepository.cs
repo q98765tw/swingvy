@@ -19,9 +19,9 @@ namespace swingvy.Repositories
         {
             return _context.memberData.FirstOrDefault(m => m.member_id == id);
         }
-        public memberData? FindHead(int type,int position)
+        public memberData? FindHead(Department type,Position position)
         {
-            return _context.memberData.FirstOrDefault(m => m.type == (Department)type && m.position == (Position)position);
+            return _context.memberData.FirstOrDefault(m => m.type == type && m.position == position);
         }
         public void save() 
         {

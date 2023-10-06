@@ -28,7 +28,7 @@ namespace swingvy.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Register(int type,int position, string account, string password)
+        public async Task<ActionResult> Register(Department type,Position position, string account, string password)
         {
             var existingUser = _memberRepository.GetUserByAccount(account);
             if (existingUser != null)
@@ -48,7 +48,7 @@ namespace swingvy.Controllers
             }
             else 
             {
-                if (position == (int)Position.Manager)
+                if (position == Position.Manager)
                 {
                     var newUserData = new memberData
                     {
@@ -56,7 +56,7 @@ namespace swingvy.Controllers
                         name = "請填寫姓名",
                         email = "請填寫信箱",
                         phone = "請填寫電話",
-                        type = (Department)type,
+                        type = type,
                         position = Position.Manager,
                         head = user.member_id,
                         img_url = "~/img/avatar24-01.png"
@@ -73,7 +73,7 @@ namespace swingvy.Controllers
                         name = "請填寫姓名",
                         email = "請填寫信箱",
                         phone = "請填寫電話",
-                        type = (Department)type,
+                        type = type,
                         position = Position.Employee,
                         head = head!.head,
                         img_url = "~/img/avatar24-01.png"
