@@ -13,7 +13,7 @@ namespace TestProjectXunit
     public class RegisterService_UnitTest
     {
         [Fact]
-        public void RegisterUser_Success()
+        public async void RegisterUser_Success()
         {
             // 準備測試數據
             string account = "testuser";
@@ -31,7 +31,10 @@ namespace TestProjectXunit
             var registerService = new RegisterService(memberRepositoryMock.Object, calendarRepositoryMock.Object);
 
             // 執行註冊
-            bool result = registerService.RegisterUser(account, password);
+            Task<bool> resultTask = registerService.RegisterUser(account, password);
+
+            // 等待註冊完成
+            bool result = await resultTask;
 
             // 驗證註冊是否成功
             Assert.True(result);

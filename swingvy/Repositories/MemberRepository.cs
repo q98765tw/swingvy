@@ -4,14 +4,14 @@ using System.Linq;
 
 namespace swingvy.Repositories 
 {
-    //public interface IMemberRepository
-    //{
-    //    void AddUser(member user);
-    //    // 其他方法
-    //    void Save();
-    //}
-    //public class MemberRepository : IMemberRepository
-    public class MemberRepository
+    public interface IMemberRepository
+    {
+        void AddUser(member user);
+        // 其他方法
+        void Save();
+    }
+    public class MemberRepository : IMemberRepository
+    //public class MemberRepository
     {
         private readonly swingvyContext _context;
 
