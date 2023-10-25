@@ -29,11 +29,6 @@ namespace swingvy.Controllers
         public ActionResult Login(string account, string password)
         {
             var user = _memberRepository.GetUserByAccount(account);
-            return IsUser(password, user);
-        }
-
-        private ActionResult IsUser(string password, Models.member? user)
-        {
             if (user != null)
             {
                 //驗證hash
@@ -43,16 +38,14 @@ namespace swingvy.Controllers
                     // 登入成功
                     return LoginSuccess(user);
                 }
-                else
-                {
+                else {
                     // 登入失败
                     ViewBag.ErrorMessage = "帐号或密码错误";
                     ModelState.Clear();
                     return RedirectToAction("Index");
                 }
             }
-            else
-            {
+            else {
                 // 登入失败
                 ViewBag.ErrorMessage = "沒有帐号";
                 ModelState.Clear();
