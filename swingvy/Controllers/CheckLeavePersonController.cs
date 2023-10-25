@@ -10,8 +10,8 @@ namespace swingvy.Controllers
     public class CheckLeavePersonController : Controller
     {
         private readonly LeaveOrderRepository _leaveOrderRepository;
-        private readonly CalendarRepository _calendarRepository;
-        public CheckLeavePersonController(LeaveOrderRepository leaveOrderRepository, CalendarRepository calendarRepository)
+        private readonly ICalendarRepository _calendarRepository;
+        public CheckLeavePersonController(LeaveOrderRepository leaveOrderRepository, ICalendarRepository calendarRepository)
         {
             _leaveOrderRepository = leaveOrderRepository;
             _calendarRepository = calendarRepository;
@@ -28,15 +28,7 @@ namespace swingvy.Controllers
             try
             {
                 ChangeState(leaveOrder_id, LeaveState.Approve);
-                var calendar = new calendar
-                {
-                    member_id = member_id,
-                    name= name,
-                    startTime = startTime,
-                    endTime = endTime,
-                };
-                _calendarRepository.AddCalendar(calendar);
-                await _calendarRepository.Save();
+                await CreateCalendar(member_id, name, startTime, endTime);
                 return Ok();
             }
             catch (Exception ex)
@@ -48,7 +40,7 @@ namespace swingvy.Controllers
         {
             try
             {
-                ChangeState(leaveOrder_id,LeaveState.Reject);
+                ChangeState(leaveOrder_id, LeaveState.Reject);
                 await _leaveOrderRepository.Save();
                 return Ok();
             }
@@ -57,7 +49,21 @@ namespace swingvy.Controllers
                 return StatusCode(500, $"新增時發生錯誤: {ex.Message}");
             }
         }
-        public void ChangeState(int leaveOrder_id, LeaveState state) 
+
+        private async Task CreateCalendar(int member_id, string name, DateTime? startTime, DateTime? endTime)
+        {
+            var calendar = new calendar
+            {
+                member_id = member_id,
+                name = name,
+                startTime = startTime,
+                endTime = endTime,
+            };
+            _calendarRepository.AddCalendar(calendar);
+            await _calendarRepository.Save();
+        }
+
+        private void ChangeState(int leaveOrder_id, LeaveState state) 
         {
             var LeaveOrder = _leaveOrderRepository.GetLeaveOrderById(leaveOrder_id);
             if (LeaveOrder != null)

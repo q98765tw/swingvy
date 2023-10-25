@@ -28,23 +28,7 @@ namespace swingvy.Controllers
         {
             try
             {
-                string? member_id = Request.Cookies["member_id"];
-                string? member_head = Request.Cookies["member_head"];
-                int.TryParse(member_id, out int memberId);
-                int.TryParse(member_head, out int memberHead);
-                var leaveOrder = new leaveOrder
-                {
-                    member_id = memberId,
-                    type = leaveType,
-                    startTime = startTime,
-                    endTime = endTime,
-                    applyTime = applyTime,
-                    reason = reason,
-                    state = LeaveState.Not,
-                    head = memberHead,
-                };
-                _leaveOrderRepository.AddLeaveOrder(leaveOrder);
-                await _leaveOrderRepository.Save();
+                await CreateLeaveOrderInDB(leaveType, applyTime, startTime, endTime, reason);
                 return Ok();
             }
             catch 
@@ -53,5 +37,25 @@ namespace swingvy.Controllers
             }
         }
 
+        private async Task CreateLeaveOrderInDB(LeaveType leaveType, DateTime? applyTime, DateTime? startTime, DateTime? endTime, string reason)
+        {
+            string? member_id = Request.Cookies["member_id"];
+            string? member_head = Request.Cookies["member_head"];
+            int.TryParse(member_id, out int memberId);
+            int.TryParse(member_head, out int memberHead);
+            var leaveOrder = new leaveOrder
+            {
+                member_id = memberId,
+                type = leaveType,
+                startTime = startTime,
+                endTime = endTime,
+                applyTime = applyTime,
+                reason = reason,
+                state = LeaveState.Not,
+                head = memberHead,
+            };
+            _leaveOrderRepository.AddLeaveOrder(leaveOrder);
+            await _leaveOrderRepository.Save();
+        }
     }
 }
