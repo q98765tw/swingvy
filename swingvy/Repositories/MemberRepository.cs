@@ -6,6 +6,8 @@ namespace swingvy.Repositories
 {
     public interface IMemberRepository
     {
+        member? GetUserByAccount(string account);
+        member? GetUserByAccountPassword(string account, string password);
         void AddUser(member user);
         // 其他方法
         void Save();

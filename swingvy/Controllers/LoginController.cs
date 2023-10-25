@@ -8,11 +8,11 @@ namespace swingvy.Controllers
     public class LoginController : Controller
     {
         private readonly LoginService _loginService;
-        private readonly MemberRepository _memberRepository;
+        private readonly IMemberRepository _memberRepository;
         private readonly MemberDataRepository _memberDataRepository;
         private readonly WorktimeRepository _worktimeRepository;
         //private readonly ISwingvyContext _swingvyContext;
-        public LoginController(LoginService loginService, MemberRepository memberRepository, MemberDataRepository memberDataRepository, WorktimeRepository worktimeRepository)
+        public LoginController(LoginService loginService, IMemberRepository memberRepository, MemberDataRepository memberDataRepository, WorktimeRepository worktimeRepository)
         {
             _loginService = loginService;
             _memberRepository = memberRepository;

@@ -9,7 +9,7 @@ namespace swingvy.Repositories
         // 其他方法
         Task Save();
     }
-    public class CalendarRepository
+    public class CalendarRepository: ICalendarRepository
     {
         private readonly swingvyContext _context;
         public CalendarRepository(swingvyContext context)

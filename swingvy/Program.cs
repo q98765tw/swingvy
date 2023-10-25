@@ -19,14 +19,14 @@ builder.Services.AddScoped<MemberCenterService>();
 builder.Services.AddScoped<MemberCenterRepository>();
 builder.Services.AddControllersWithViews();
 //Service
-builder.Services.AddTransient<RegisterService>();
-builder.Services.AddTransient<LoginService>();
+builder.Services.AddScoped<RegisterService>();
+builder.Services.AddScoped<LoginService>();
 //Repository
-builder.Services.AddTransient<MemberRepository>();
-builder.Services.AddTransient<MemberDataRepository>();
-builder.Services.AddTransient<CalendarRepository>();
-builder.Services.AddTransient<WorktimeRepository>();
-builder.Services.AddTransient<LeaveOrderRepository>();
+builder.Services.AddScoped<IMemberRepository,MemberRepository>();
+builder.Services.AddScoped<MemberDataRepository>();
+builder.Services.AddScoped<ICalendarRepository,CalendarRepository>();
+builder.Services.AddScoped<WorktimeRepository>();
+builder.Services.AddScoped<LeaveOrderRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

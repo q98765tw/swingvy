@@ -11,10 +11,10 @@ namespace swingvy.Controllers
     {
         
         private readonly RegisterService _registerService;
-        private readonly MemberRepository _memberRepository;
+        private readonly IMemberRepository _memberRepository;
         private readonly MemberDataRepository _memberDataRepository;
         private readonly WorktimeRepository _worktimeRepository;
-        public RegisterController(RegisterService registerService, MemberRepository memberRepository, MemberDataRepository memberDataRepository, WorktimeRepository worktimeRepository)
+        public RegisterController(RegisterService registerService, IMemberRepository memberRepository, MemberDataRepository memberDataRepository, WorktimeRepository worktimeRepository)
         {
             _registerService = registerService;
             _memberRepository = memberRepository;
